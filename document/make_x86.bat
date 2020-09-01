@@ -1,0 +1,1 @@
+python D:/Android/Sdk/ndk-bundle/build/tools/make_standalone_toolchain.py --arch=x86 --stl=libc++ --api=24 --install-dir=android-toolchain-24-llvm-x86
