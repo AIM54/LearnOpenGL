@@ -13,5 +13,4 @@ public class MyRender {
 
     public native int resume();
 
-
 }

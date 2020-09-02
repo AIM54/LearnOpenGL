@@ -3,6 +3,7 @@ package com.bian.learnopengl;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         TextView tv = findViewById(R.id.sample_text);
         tv.setText(stringFromJNI());
-    }
+        Handler handler=new Handler();
+}
 
     /**
      * A native method that is implemented by the 'native-lib' native library,
