@@ -9,23 +9,32 @@
 #include <jni.h>
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
+#include <android/native_window.h>
+#include <android/native_window_jni.h>
+#include <EGL/egl.h>
 
 class BaseRender {
 private:
     int width, height;
-
-public:
-    BaseRender(AAssetManager* assert);
-
+    EGLDisplay eglDisplay;
+    EGLConfig eglConfig;
+    ANativeWindow *mNativeWindow;
+    EGLSurface eglSurface;
+    EGLContext eglContext;
     int type;
+public:
+    BaseRender(AAssetManager *assert);
 
-    int initSurface(jobject surface);
+    virtual ~BaseRender();
 
-    int onSizeChanged(int width, int height);
+    int initSurface(JNIEnv *jniEnv, jobject surface);
 
-    int draw();
+    virtual int onSizeChanged(int width, int height);
 
-    int destroyView();
+    virtual int draw();
+
+    virtual int destroyView();
+
 
 };
 

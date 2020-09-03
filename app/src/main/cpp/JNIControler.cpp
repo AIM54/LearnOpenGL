@@ -62,10 +62,9 @@ void init(JNIEnv
           jobject thiz, jobject
           assert) {
     AAssetManager *manager = AAssetManager_fromJava(env, assert);
-    ALOGI("init(JNIEnv\n"
-          "          *env,\n"
-          "          jobject thiz, jobject\n"
-          "          assert)");
+    jclass renderClass = env->FindClass(MY_OPENGL_RENDER);;
+    jint renderType = env->GetIntField(thiz, env->GetFieldID(renderClass, "renderType", "I"));
+    ALOGI("the renderType is :%d", renderType);
 }
 
 jint initSurface(JNIEnv

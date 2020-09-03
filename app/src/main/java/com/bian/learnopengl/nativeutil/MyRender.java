@@ -9,7 +9,7 @@ public class MyRender {
     private AssetManager assetManager;
 
     public MyRender(AssetManager assetManager) {
-        this(0, assetManager);
+        this(12, assetManager);
     }
 
     public MyRender(int renderType, AssetManager assetManager) {
