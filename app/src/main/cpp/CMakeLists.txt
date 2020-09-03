@@ -22,7 +22,8 @@ endif (${ANDROID_PLATFORM_LEVEL} LESS 12)
 include_directories(
         header
         header/assimp
-        header/ffmpeg)
+        header/ffmpeg
+        opengl)
 
 set(jniPath "${CMAKE_CURRENT_SOURCE_DIR}/../jniLib")
 set(PATH_TO_MEDIACORE ${CMAKE_SOURCE_DIR})
@@ -31,7 +32,7 @@ set(PATH_TO_MEDIACORE ${CMAKE_SOURCE_DIR})
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 file(GLOB FILES_C "${PATH_TO_MEDIACORE}/glbase/*.c")
-
+file(GLOB FILE_RENDER "${PATH_TO_MEDIACORE}/opengl/*.cpp")
 add_library( # Sets the name of the library.
         native-lib
         # Sets the library as a shared library.
@@ -39,6 +40,7 @@ add_library( # Sets the name of the library.
 
         # Provides a relative path to your source file(s).
         ${FILES_C}
+        ${FILE_RENDER}
         JNIControler.cpp
         gl3stub.c)
 

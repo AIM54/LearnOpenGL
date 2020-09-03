@@ -3,7 +3,6 @@ package com.bian.learnopengl;
 import android.content.Context;
 
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -13,12 +12,12 @@ import com.bian.learnopengl.util.LogUtils;
 import java.lang.ref.WeakReference;
 
 
-
 public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     private MyRenderThread renderThread;
     private Object mRenderManager = new Object();
     private Render mRender;
 
+    private int threadCount;
 
     public interface Render {
         void onSurfaceCreate(Surface surface);
@@ -106,6 +105,7 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
         @Override
         public void run() {
+            setName("MyRenderThread--" + threadCount++);
             try {
                 looperForRender();
             } catch (Exception ex) {
@@ -115,7 +115,6 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
         private void looperForRender() throws InterruptedException {
             while (true) {
-                Thread.sleep(100);
                 synchronized (mRenderManager) {
                     if (mShouldExit) {
                         break;

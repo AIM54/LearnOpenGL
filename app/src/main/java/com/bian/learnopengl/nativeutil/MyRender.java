@@ -1,8 +1,24 @@
 package com.bian.learnopengl.nativeutil;
 
+import android.content.res.AssetManager;
 import android.view.Surface;
 
 public class MyRender {
+
+    public int renderType;
+    private AssetManager assetManager;
+
+    public MyRender(AssetManager assetManager) {
+        this(0, assetManager);
+    }
+
+    public MyRender(int renderType, AssetManager assetManager) {
+        this.renderType = renderType;
+        this.assetManager = assetManager;
+        init(assetManager);
+    }
+
+
     static {
         System.loadLibrary("swscale");
         System.loadLibrary("swresample");
@@ -16,7 +32,10 @@ public class MyRender {
         System.loadLibrary("native-lib");
     }
 
-    public native int init(Surface surface);
+    public native void init(AssetManager assetManager);
+
+
+    public native int initSurface(Surface surface);
 
     public native int onSizeChanged(int width, int height);
 
@@ -26,5 +45,11 @@ public class MyRender {
 
     public native int resume();
 
-    public native int destroy();
+    public native int destroyView();
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+
+    }
 }

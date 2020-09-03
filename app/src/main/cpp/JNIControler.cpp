@@ -5,19 +5,24 @@
 #include <android/log.h>
 #include <ijksdl_log.h>
 #include "JNIControler.h"
+#include <android/asset_manager_jni.h>
+#include <android/asset_manager.h>
 
 extern "C" {
 #include "gl3stub.h"
 }
 #define MY_OPENGL_RENDER  "com/bian/learnopengl/nativeutil/MyRender"
 
+#define NELE(x) sizeof(x)/sizeof(x[0])
+
 static JNINativeMethod renderMethods[] = {
-        {"init",          "(Landroid/view/Surface;)I", (void *) init},
-        {"onSizeChanged", "(II)I",                     (void *) onSizeChanged},
-        {"draw",          "()I",                       (void *) draw},
-        {"pause",         "()I",                       (void *) pause},
-        {"resume",        "()I",                       (void *) resume},
-        {"destroy",       "()I",                       (void *) destroy}
+        {"init",          "(Landroid/content/res/AssetManager;)V", (void *) init},
+        {"initSurface",   "(Landroid/view/Surface;)I",             (void *) initSurface},
+        {"onSizeChanged", "(II)I",                                 (void *) onSizeChanged},
+        {"draw",          "()I",                                   (void *) draw},
+        {"pause",         "()I",                                   (void *) pause},
+        {"resume",        "()I",                                   (void *) resume},
+        {"destroyView",   "()I",                                   (void *) destroyView}
 };
 
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
@@ -31,7 +36,8 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
         ALOGE("failed to find class:%s", MY_OPENGL_RENDER);
         return JNI_ERR;
     }
-    jniEnv->RegisterNatives(renderClass, renderMethods, 6);
+    ALOGE("renderMethods.length is :%d", NELE(renderMethods));
+    jniEnv->RegisterNatives(renderClass, renderMethods, NELE(renderMethods));
     jniEnv->DeleteLocalRef(renderClass);
     return JNI_VERSION_1_6;
 };
@@ -51,13 +57,25 @@ JNIEXPORT void JNI_OnUnload(JavaVM *vm, void *reserved) {
 
 };
 
-
-jint init(JNIEnv
+void init(JNIEnv
           *env,
           jobject thiz, jobject
-          surface) {
-    gl3stubInit();
-    return 1;
+          assert) {
+    AAssetManager *manager = AAssetManager_fromJava(env, assert);
+    ALOGI("init(JNIEnv\n"
+          "          *env,\n"
+          "          jobject thiz, jobject\n"
+          "          assert)");
+}
+
+jint initSurface(JNIEnv
+                 *env,
+                 jobject thiz, jobject
+                 surface) {
+    if (gl3stubInit() != GL_TRUE) {
+        return GL_FALSE;
+    }
+    return GL_TRUE;
 }
 
 jint onSizeChanged(JNIEnv
@@ -90,9 +108,9 @@ jint resume(JNIEnv
     return 1;
 }
 
-jint destroy(JNIEnv
-             *env,
-             jobject thiz
+jint destroyView(JNIEnv
+                 *env,
+                 jobject thiz
 ) {
     return 1;
 }

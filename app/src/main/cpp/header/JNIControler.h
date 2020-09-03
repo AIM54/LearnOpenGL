@@ -6,10 +6,14 @@
 #define LEARNOPENGL_JNICONTROLER_H
 
 #include <jni.h>
-jint init(JNIEnv
-          *env,
-          jobject thiz, jobject
-          surface);
+void init(JNIEnv
+                 *env,
+                 jobject thiz, jobject
+                 assert);
+jint initSurface(JNIEnv
+                 *env,
+                 jobject thiz, jobject
+                 surface);
 
 jint onSizeChanged(JNIEnv
                    *env,
@@ -33,9 +37,10 @@ jint resume(JNIEnv
             jobject thiz
 );
 
-jint destroy(JNIEnv
-             *env,
-             jobject thiz
+jint destroyView(JNIEnv
+                 *env,
+                 jobject thiz
 );
+
 #endif //LEARNOPENGL_JNICONTROLER_H
 
