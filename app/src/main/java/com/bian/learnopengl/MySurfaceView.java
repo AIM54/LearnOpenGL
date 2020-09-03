@@ -1,13 +1,35 @@
 package com.bian.learnopengl;
 
 import android.content.Context;
-import android.opengl.GLSurfaceView;
+
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.bian.learnopengl.util.LogUtils;
+
+import java.lang.ref.WeakReference;
+
+
+
 public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback {
-    private GLSurfaceView glSurfaceView;
+    private MyRenderThread renderThread;
+    private Object mRenderManager = new Object();
+    private Render mRender;
+
+
+    public interface Render {
+        void onSurfaceCreate(Surface surface);
+
+        void onSizeChanged(int width, int height);
+
+        void onDraw();
+
+        void onRelease();
+
+    }
 
     public MySurfaceView(Context context) {
         this(context, null);
@@ -22,28 +44,132 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         getHolder().addCallback(this);
     }
 
+    public void setRender(Render mRender) {
+        this.mRender = mRender;
+        init();
+    }
+
+
+    private void init() {
+        renderThread = new MyRenderThread();
+        renderThread.start();
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-
+        if (renderThread != null) {
+            if (renderThread.mShouldExit) {
+                renderThread = new MyRenderThread();
+                renderThread.start();
+            }
+            renderThread.setSurface(holder.getSurface());
+        }
+        LogUtils.logMessageI("surfaceCreated");
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        holder.getSurface();
-
+        if (renderThread != null) {
+            renderThread.onWindowsChanged(width, height);
+        }
+        LogUtils.logMessageI("surfaceChanged");
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-
+        if (renderThread != null) {
+            renderThread.onDestroy();
+        }
+        LogUtils.logMessageI("surfaceDestroyed");
     }
 
 
     public void onPause() {
-
+        renderThread.onPause();
     }
 
     public void onResume() {
+        renderThread.onResume();
+    }
 
+    private class MyRenderThread extends Thread {
+        private int mHeight;
+        private int mWidth;
+        private boolean mInitSurface;
+        private boolean hasSurface;
+        private boolean mPaused;
+        private boolean mShouldExit;
+        private boolean mSizeChanged;
+
+        private WeakReference<Surface> mSurfaceReference;
+
+
+        @Override
+        public void run() {
+            try {
+                looperForRender();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        private void looperForRender() throws InterruptedException {
+            while (true) {
+                Thread.sleep(100);
+                synchronized (mRenderManager) {
+                    if (mShouldExit) {
+                        break;
+                    }
+                    if (mInitSurface) {
+                        mRender.onSurfaceCreate(mSurfaceReference.get());
+                        mInitSurface = false;
+                    }
+                    if (mSizeChanged) {
+                        mRender.onSizeChanged(mWidth, mHeight);
+                        mSizeChanged = false;
+                    }
+                    if (readyForDraw()) {
+                        mRender.onDraw();
+                    }
+                }
+            }
+            mRender.onRelease();
+        }
+
+        private boolean readyForDraw() {
+            return mWidth > 0 &&
+                    mHeight > 0 &&
+                    hasSurface &&
+                    !mPaused &&
+                    !mShouldExit;
+        }
+
+        public void setSurface(Surface surface) {
+            mSurfaceReference = new WeakReference<>(surface);
+            hasSurface = true;
+            mInitSurface = true;
+        }
+
+        public void onWindowsChanged(int width, int height) {
+            mWidth = width;
+            mHeight = height;
+            mSizeChanged = true;
+        }
+
+        public void onPause() {
+            mPaused = true;
+        }
+
+        public void onResume() {
+            mPaused = false;
+        }
+
+        public void onDestroy() {
+            mShouldExit = true;
+            hasSurface = false;
+            mInitSurface = false;
+            mWidth = 0;
+            mHeight = 0;
+        }
     }
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">LearnOpenGL</string>
+    <string name="test_opengl">测试opengl</string>
 </resources>

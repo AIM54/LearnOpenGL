@@ -39,7 +39,6 @@ add_library( # Sets the name of the library.
 
         # Provides a relative path to your source file(s).
         ${FILES_C}
-        native-lib.cpp
         JNIControler.cpp
         gl3stub.c)
 
