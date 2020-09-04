@@ -3,3 +3,12 @@
 //
 
 #include "FirstDrawer.h"
+
+
+int FirstDrawer::onSizeChanged(int width, int height) {
+    return GL_TRUE;
+}
+
+int FirstDrawer::draw() {
+    return GL_TRUE;
+}

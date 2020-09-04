@@ -3,47 +3,8 @@
 //
 
 
-#include <ijksdl_log.h>
+
 #include "BaseRender.h"
-
-extern "C" {
-#include "esUtil.h"
-#include "AssetReader.h"
-}
-
-BaseRender::BaseRender(AAssetManager *assert) {
-    eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
-    if (eglDisplay == EGL_NO_DISPLAY) {
-        ALOGI("faild to get display");
-        return;
-    }
-    EGLint majarVersion;
-    EGLint minorVersion;
-    if (!eglInitialize(eglDisplay, &majarVersion, &minorVersion)) {
-        ALOGE("failed to init eglDisplay");
-        eglDisplay = EGL_NO_DISPLAY;
-        return;
-    }
-
-    EGLint configAttribes[] = {
-            EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT_KHR,
-            EGL_RED_SIZE, 8,
-            EGL_GREEN_SIZE, 8,
-            EGL_BLUE_SIZE, 8,
-            EGL_DEPTH_SIZE, 24,
-            EGL_NONE
-    };
-    const EGLint MAX_CONFIG = 1;
-    EGLint numConfigs;
-    if (!eglChooseConfig(eglDisplay, configAttribes, &eglConfig, MAX_CONFIG, &numConfigs)) {
-        ALOGI("failed to pass eglChooseConfig");
-        eglTerminate(eglDisplay);
-        eglDisplay = EGL_NO_DISPLAY;
-        return;
-    }
-
-}
 
 int BaseRender::initSurface(JNIEnv *jniEnv, jobject surface) {
     if (eglDisplay == EGL_NO_DISPLAY) {
@@ -81,7 +42,30 @@ int BaseRender::initSurface(JNIEnv *jniEnv, jobject surface) {
         return EGL_FALSE;
     }
     if (!eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext)) {
+        eglDestroyContext(eglDisplay, eglContext);
+        eglDestroySurface(eglDisplay, eglSurface);
+        eglTerminate(eglDisplay);
         return EGL_FALSE;
     }
     return EGL_TRUE;
+}
+
+int BaseRender::destroyView() {
+    if (eglSurface) {
+        eglMakeCurrent(eglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+    }
+    if (eglContext) {
+        eglDestroyContext(eglDisplay, eglContext);
+    }
+    if (eglSurface) {
+        eglDestroySurface(eglDisplay, eglSurface);
+    }
+    if (eglDisplay) {
+        eglTerminate(eglDisplay);
+    }
+    eglReleaseThread();
+    eglContext = EGL_NO_CONTEXT;
+    eglSurface = EGL_NO_SURFACE;
+    eglDisplay = EGL_NO_DISPLAY;
+    return GL_TRUE;
 }

@@ -7,6 +7,9 @@
 #include "JNIControler.h"
 #include <android/asset_manager_jni.h>
 #include <android/asset_manager.h>
+#include <BaseDrawer.h>
+#include <gl3stub.h>
+#include "RenderFactory.h"
 
 extern "C" {
 #include "gl3stub.h"
@@ -14,6 +17,8 @@ extern "C" {
 #define MY_OPENGL_RENDER  "com/bian/learnopengl/nativeutil/MyRender"
 
 #define NELE(x) sizeof(x)/sizeof(x[0])
+
+BaseDrawer *mCurrentRender;
 
 static JNINativeMethod renderMethods[] = {
         {"init",          "(Landroid/content/res/AssetManager;)V", (void *) init},
@@ -65,15 +70,17 @@ void init(JNIEnv
     jclass renderClass = env->FindClass(MY_OPENGL_RENDER);;
     jint renderType = env->GetIntField(thiz, env->GetFieldID(renderClass, "renderType", "I"));
     ALOGI("the renderType is :%d", renderType);
+    mCurrentRender = createRender(renderType, manager);
 }
 
 jint initSurface(JNIEnv
                  *env,
                  jobject thiz, jobject
                  surface) {
-    if (gl3stubInit() != GL_TRUE) {
+    if (gl3stubInit()!= GL_TRUE) {
         return GL_FALSE;
     }
+    mCurrentRender->initSurface(env, surface);
     return GL_TRUE;
 }
 
@@ -83,6 +90,7 @@ jint onSizeChanged(JNIEnv
                    width,
                    jint height
 ) {
+    mCurrentRender->onSizeChanged(width, height);
     return 1;
 }
 
@@ -90,6 +98,7 @@ jint draw(JNIEnv
           *env,
           jobject thiz
 ) {
+    mCurrentRender->draw();
     return 1;
 }
 
@@ -111,6 +120,7 @@ jint destroyView(JNIEnv
                  *env,
                  jobject thiz
 ) {
+    mCurrentRender->destroyView();
     return 1;
 }
 

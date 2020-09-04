@@ -12,6 +12,11 @@
 #include <android/native_window.h>
 #include <android/native_window_jni.h>
 #include <EGL/egl.h>
+#include <ijksdl_log.h>
+extern "C" {
+#include "AssetReader.h"
+#include "esUtil.h"
+};
 
 class BaseRender {
 private:
@@ -23,15 +28,14 @@ private:
     EGLContext eglContext;
     int type;
 public:
-    BaseRender(AAssetManager *assert);
 
     virtual ~BaseRender();
 
     int initSurface(JNIEnv *jniEnv, jobject surface);
 
-    virtual int onSizeChanged(int width, int height);
+    virtual int onSizeChanged(int width, int height) = 0;
 
-    virtual int draw();
+    virtual int draw() = 0;
 
     virtual int destroyView();
 

@@ -5,9 +5,9 @@
 #ifndef LEARNOPENGL_RENDERFACTORY_H
 #define LEARNOPENGL_RENDERFACTORY_H
 
-#include "BaseRender.h"
+#include "BaseDrawer.h"
 #include <android/asset_manager.h>
 
-BaseRender createRender(int type,AAssetManager* manager);
+BaseDrawer *createRender(int type, AAssetManager *manager);
 
 #endif //LEARNOPENGL_RENDERFACTORY_H

@@ -3,6 +3,9 @@
 //
 
 #include "RenderFactory.h"
-BaseRender createRender(int type,AAssetManager* manager){
+#include "FirstDrawer.h"
 
+BaseDrawer *createRender(int type, AAssetManager *manager) {
+    BaseDrawer *baseDrawer = new FirstDrawer();
+    return baseDrawer;
 }
