@@ -13,6 +13,7 @@
 #include <android/native_window_jni.h>
 #include <EGL/egl.h>
 #include <ijksdl_log.h>
+
 extern "C" {
 #include "AssetReader.h"
 #include "esUtil.h"
@@ -28,6 +29,8 @@ private:
     EGLContext eglContext;
     int type;
 public:
+
+    BaseRender(AAssetManager *manager);
 
     virtual ~BaseRender();
 

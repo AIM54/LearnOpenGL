@@ -7,8 +7,6 @@
 #include "JNIControler.h"
 #include <android/asset_manager_jni.h>
 #include <android/asset_manager.h>
-#include <BaseDrawer.h>
-#include <gl3stub.h>
 #include "RenderFactory.h"
 
 extern "C" {
@@ -18,7 +16,7 @@ extern "C" {
 
 #define NELE(x) sizeof(x)/sizeof(x[0])
 
-BaseDrawer *mCurrentRender;
+BaseRender *mCurrentRender;
 
 static JNINativeMethod renderMethods[] = {
         {"init",          "(Landroid/content/res/AssetManager;)V", (void *) init},
@@ -77,9 +75,9 @@ jint initSurface(JNIEnv
                  *env,
                  jobject thiz, jobject
                  surface) {
-    if (gl3stubInit()!= GL_TRUE) {
-        return GL_FALSE;
-    }
+//    if (gl3stubInit()!= GL_TRUE) {
+//        return GL_FALSE;
+//    }
     mCurrentRender->initSurface(env, surface);
     return GL_TRUE;
 }

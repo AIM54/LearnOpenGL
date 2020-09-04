@@ -6,8 +6,39 @@
 
 #include "BaseRender.h"
 
+BaseRender::BaseRender(AAssetManager *manager) {
+
+}
+
 int BaseRender::initSurface(JNIEnv *jniEnv, jobject surface) {
+    eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     if (eglDisplay == EGL_NO_DISPLAY) {
+        ALOGI("faild to get display");
+        return EGL_FALSE;
+    }
+    EGLint majarVersion;
+    EGLint minorVersion;
+    if (!eglInitialize(eglDisplay, &majarVersion, &minorVersion)) {
+        ALOGE("failed to init eglDisplay");
+        eglDisplay = EGL_NO_DISPLAY;
+        return EGL_FALSE;
+    }
+
+    EGLint configAttribes[] = {
+            EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT_KHR,
+            EGL_RED_SIZE, 8,
+            EGL_GREEN_SIZE, 8,
+            EGL_BLUE_SIZE, 8,
+            EGL_DEPTH_SIZE, 24,
+            EGL_NONE
+    };
+    const EGLint MAX_CONFIG = 1;
+    EGLint numConfigs;
+    if (!eglChooseConfig(eglDisplay, configAttribes, &eglConfig, MAX_CONFIG, &numConfigs)) {
+        ALOGI("failed to pass eglChooseConfig");
+        eglTerminate(eglDisplay);
+        eglDisplay = EGL_NO_DISPLAY;
         return EGL_FALSE;
     }
     mNativeWindow = ANativeWindow_fromSurface(jniEnv, surface);
@@ -68,4 +99,8 @@ int BaseRender::destroyView() {
     eglSurface = EGL_NO_SURFACE;
     eglDisplay = EGL_NO_DISPLAY;
     return GL_TRUE;
+}
+
+BaseRender::~BaseRender() {
+
 }

@@ -5,11 +5,14 @@
 #ifndef LEARNOPENGL_FIRSTDRAWER_H
 #define LEARNOPENGL_FIRSTDRAWER_H
 
-#include "BaseDrawer.h"
+#include "BaseRender.h"
 
-class FirstDrawer : public BaseDrawer {
+class FirstDrawer : public BaseRender {
 
 public:
+
+
+    FirstDrawer(AAssetManager *manager);
 
     int onSizeChanged(int width, int height) override;
 
