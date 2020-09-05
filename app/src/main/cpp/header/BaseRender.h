@@ -20,12 +20,13 @@ extern "C" {
 };
 
 class BaseRender {
+protected:
+    EGLSurface eglSurface;
+    EGLDisplay eglDisplay;
 private:
     int width, height;
-    EGLDisplay eglDisplay;
     EGLConfig eglConfig;
     ANativeWindow *mNativeWindow;
-    EGLSurface eglSurface;
     EGLContext eglContext;
     int type;
 public:
@@ -34,7 +35,7 @@ public:
 
     virtual ~BaseRender();
 
-    int initSurface(JNIEnv *jniEnv, jobject surface);
+    virtual int initSurface(JNIEnv *jniEnv, jobject surface);
 
     virtual int onSizeChanged(int width, int height) = 0;
 

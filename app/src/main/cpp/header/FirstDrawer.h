@@ -8,15 +8,21 @@
 #include "BaseRender.h"
 
 class FirstDrawer : public BaseRender {
-
+private:
+    int mWidth;
+    int mHeight;
+    char *verticalShader;
+    char *fragmentShader;
 public:
 
 
     FirstDrawer(AAssetManager *manager);
-
+    int initSurface(JNIEnv *jniEnv, jobject surface) override ;
     int onSizeChanged(int width, int height) override;
 
     int draw() override;
+
+    GLuint glProgrem;
 
 };
 

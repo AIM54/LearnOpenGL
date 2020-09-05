@@ -30,37 +30,31 @@ public class OpenglActivity extends AppCompatActivity implements MySurfaceView.R
     @Override
     protected void onPause() {
         super.onPause();
-        LogUtils.logMessageI("onPause");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        LogUtils.logMessageI("onResume");
     }
 
 
     @Override
     public void onSurfaceCreate(Surface surface) {
-        LogUtils.logMessageI("onSurfaceCreate1");
         myRender.initSurface(surface);
     }
 
     @Override
     public void onSizeChanged(int width, int height) {
-        LogUtils.logMessageI("onSizeChanged1");
         myRender.onSizeChanged(width, height);
     }
 
     @Override
     public void onDraw() {
-        LogUtils.logMessageI("onDraw1");
         myRender.draw();
     }
 
     @Override
     public void onRelease() {
-        LogUtils.logMessageI("onRelease");
         myRender.destroyView();
     }
 }

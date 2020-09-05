@@ -63,7 +63,6 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
             }
             renderThread.setSurface(holder.getSurface());
         }
-        LogUtils.logMessageI("surfaceCreated");
     }
 
     @Override
@@ -71,7 +70,6 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         if (renderThread != null) {
             renderThread.onWindowsChanged(width, height);
         }
-        LogUtils.logMessageI("surfaceChanged");
     }
 
     @Override
@@ -79,7 +77,6 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         if (renderThread != null) {
             renderThread.onDestroy();
         }
-        LogUtils.logMessageI("surfaceDestroyed");
     }
 
 

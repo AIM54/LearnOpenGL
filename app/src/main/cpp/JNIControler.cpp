@@ -7,11 +7,8 @@
 #include "JNIControler.h"
 #include <android/asset_manager_jni.h>
 #include <android/asset_manager.h>
-#include "RenderFactory.h"
-
-extern "C" {
 #include "gl3stub.h"
-}
+#include "RenderFactory.h"
 #define MY_OPENGL_RENDER  "com/bian/learnopengl/nativeutil/MyRender"
 
 #define NELE(x) sizeof(x)/sizeof(x[0])
@@ -75,9 +72,9 @@ jint initSurface(JNIEnv
                  *env,
                  jobject thiz, jobject
                  surface) {
-//    if (gl3stubInit()!= GL_TRUE) {
-//        return GL_FALSE;
-//    }
+    if (gl3stubInit()!= GL_TRUE) {
+        return GL_FALSE;
+    }
     mCurrentRender->initSurface(env, surface);
     return GL_TRUE;
 }
