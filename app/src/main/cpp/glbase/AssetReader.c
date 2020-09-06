@@ -4,7 +4,7 @@
 
 #include "AssetReader.h"
 
-char *readStringFromAssert(AAssetManager *aAssetManager, char *path) {
+char *readStringFromAssert(AAssetManager *aAssetManager, const char *path) {
     AAsset *aasert = AAssetManager_open(aAssetManager, path, AASSET_MODE_UNKNOWN);
     off_t assetSize = AAsset_getLength(aasert);
     char *buffer = malloc(sizeof(char) * (assetSize + 1));

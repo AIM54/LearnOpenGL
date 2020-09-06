@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include "esUtil.h"
 
-char *readStringFromAssert(AAssetManager *aAssetManager, char *path);
+char *readStringFromAssert(AAssetManager *aAssetManager, const char *path);
 
 
 #endif //LEARNOPENGL_ASSETREADER_H

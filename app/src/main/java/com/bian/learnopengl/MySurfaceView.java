@@ -7,7 +7,6 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.bian.learnopengl.util.LogUtils;
 
 import java.lang.ref.WeakReference;
 

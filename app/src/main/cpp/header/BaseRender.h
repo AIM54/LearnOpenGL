@@ -30,6 +30,9 @@ private:
     EGLContext eglContext;
     int type;
 public:
+    int getWidth();
+
+    int getHeight();
 
     BaseRender(AAssetManager *manager);
 
@@ -37,7 +40,7 @@ public:
 
     virtual int initSurface(JNIEnv *jniEnv, jobject surface);
 
-    virtual int onSizeChanged(int width, int height) = 0;
+    virtual int onSizeChanged(int width, int height);
 
     virtual int draw() = 0;
 

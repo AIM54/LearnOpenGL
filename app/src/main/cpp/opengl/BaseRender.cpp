@@ -10,6 +10,20 @@ BaseRender::BaseRender(AAssetManager *manager) {
 
 }
 
+int BaseRender::onSizeChanged(int width, int height) {
+    this->width = width;
+    this->height = height;
+    return GL_TRUE;
+}
+
+int BaseRender::getWidth() {
+    return width;
+}
+
+int BaseRender::getHeight() {
+    return height;
+}
+
 int BaseRender::initSurface(JNIEnv *jniEnv, jobject surface) {
     eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     if (eglDisplay == EGL_NO_DISPLAY) {

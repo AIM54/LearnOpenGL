@@ -9,6 +9,7 @@
 #include <android/asset_manager.h>
 #include "gl3stub.h"
 #include "RenderFactory.h"
+
 #define MY_OPENGL_RENDER  "com/bian/learnopengl/nativeutil/MyRender"
 
 #define NELE(x) sizeof(x)/sizeof(x[0])
@@ -43,6 +44,10 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
 };
 
 JNIEXPORT void JNI_OnUnload(JavaVM *vm, void *reserved) {
+    if (mCurrentRender) {
+        delete mCurrentRender;
+        mCurrentRender = nullptr;
+    }
     JNIEnv *jniEnv = nullptr;
     if (vm->GetEnv(reinterpret_cast<void **>(&jniEnv), JNI_VERSION_1_6) != JNI_OK) {
         ALOGE("failed to get env");
@@ -65,6 +70,9 @@ void init(JNIEnv
     jclass renderClass = env->FindClass(MY_OPENGL_RENDER);;
     jint renderType = env->GetIntField(thiz, env->GetFieldID(renderClass, "renderType", "I"));
     ALOGI("the renderType is :%d", renderType);
+    if (mCurrentRender) {
+        delete mCurrentRender;
+    }
     mCurrentRender = createRender(renderType, manager);
 }
 
@@ -72,7 +80,7 @@ jint initSurface(JNIEnv
                  *env,
                  jobject thiz, jobject
                  surface) {
-    if (gl3stubInit()!= GL_TRUE) {
+    if (gl3stubInit() != GL_TRUE) {
         return GL_FALSE;
     }
     mCurrentRender->initSurface(env, surface);
