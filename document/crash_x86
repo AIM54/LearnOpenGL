@@ -1,0 +1,2 @@
+
+adb logcat | ndk-stack -sym   D:\NativeCode\LearnOpenGL\app\src\main\cpp\jniLibs\x86

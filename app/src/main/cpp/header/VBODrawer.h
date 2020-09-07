@@ -13,9 +13,10 @@ private:
     char *verticalShader;
 
     char *fragmentShader;
+    GLuint vao;
+    GLuint ebo[2];
 protected:
     GLuint mProgram;
-    GLuint vao;
 
 public:
     VBODrawer(AAssetManager *manager,

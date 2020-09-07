@@ -56,6 +56,11 @@ int BaseRender::initSurface(JNIEnv *jniEnv, jobject surface) {
         return EGL_FALSE;
     }
     mNativeWindow = ANativeWindow_fromSurface(jniEnv, surface);
+    EGLint configs[]{
+            EGL_RENDER_BUFFER, EGL_BACK_BUFFER,
+            EGL_NONE
+    };
+
     EGLint native_virtual_id = 0;
     if (!eglGetConfigAttrib(eglDisplay, eglConfig, EGL_NATIVE_VISUAL_ID, &native_virtual_id)) {
         eglTerminate(eglDisplay);
@@ -70,7 +75,7 @@ int BaseRender::initSurface(JNIEnv *jniEnv, jobject surface) {
         eglTerminate(eglDisplay);
         return EGL_FALSE;
     }
-    eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, mNativeWindow, NULL);
+    eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, mNativeWindow, configs);
     if (eglSurface == EGL_NO_SURFACE) {
         eglTerminate(eglDisplay);
         eglDisplay = EGL_NO_DISPLAY;
@@ -92,6 +97,7 @@ int BaseRender::initSurface(JNIEnv *jniEnv, jobject surface) {
         eglTerminate(eglDisplay);
         return EGL_FALSE;
     }
+    ALOGI("after initSurface");
     return EGL_TRUE;
 }
 

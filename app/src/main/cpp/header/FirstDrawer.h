@@ -17,8 +17,8 @@ public:
 
 
     FirstDrawer(AAssetManager *manager);
-    int initSurface(JNIEnv *jniEnv, jobject surface) override ;
-    int onSizeChanged(int width, int height) override;
+
+    int initSurface(JNIEnv *jniEnv, jobject surface) override;
 
     int draw() override;
 

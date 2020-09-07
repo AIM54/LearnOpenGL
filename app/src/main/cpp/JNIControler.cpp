@@ -72,6 +72,7 @@ void init(JNIEnv
     ALOGI("the renderType is :%d", renderType);
     if (mCurrentRender) {
         delete mCurrentRender;
+        mCurrentRender = nullptr;
     }
     mCurrentRender = createRender(renderType, manager);
 }
@@ -83,6 +84,7 @@ jint initSurface(JNIEnv
     if (gl3stubInit() != GL_TRUE) {
         return GL_FALSE;
     }
+
     mCurrentRender->initSurface(env, surface);
     return GL_TRUE;
 }
@@ -93,7 +95,9 @@ jint onSizeChanged(JNIEnv
                    width,
                    jint height
 ) {
-    mCurrentRender->onSizeChanged(width, height);
+    if (mCurrentRender) {
+        mCurrentRender->onSizeChanged(width, height);
+    }
     return 1;
 }
 
@@ -101,7 +105,9 @@ jint draw(JNIEnv
           *env,
           jobject thiz
 ) {
-    mCurrentRender->draw();
+    if (mCurrentRender) {
+        mCurrentRender->draw();
+    }
     return 1;
 }
 
@@ -123,7 +129,9 @@ jint destroyView(JNIEnv
                  *env,
                  jobject thiz
 ) {
-    mCurrentRender->destroyView();
+    if (mCurrentRender) {
+        mCurrentRender->destroyView();
+    }
     return 1;
 }
 
