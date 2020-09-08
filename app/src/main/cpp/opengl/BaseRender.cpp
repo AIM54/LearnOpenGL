@@ -4,6 +4,7 @@
 
 
 
+#include "gl3stub.h"
 #include "BaseRender.h"
 
 BaseRender::BaseRender(AAssetManager *manager) {
@@ -25,6 +26,9 @@ int BaseRender::getHeight() {
 }
 
 int BaseRender::initSurface(JNIEnv *jniEnv, jobject surface) {
+    if (!gl3stubInit()) {
+        return GL_FALSE;
+    }
     eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     if (eglDisplay == EGL_NO_DISPLAY) {
         ALOGI("faild to get display");
@@ -38,18 +42,25 @@ int BaseRender::initSurface(JNIEnv *jniEnv, jobject surface) {
         return EGL_FALSE;
     }
 
-    EGLint configAttribes[] = {
-            EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT_KHR,
-            EGL_RED_SIZE, 8,
-            EGL_GREEN_SIZE, 8,
-            EGL_BLUE_SIZE, 8,
-            EGL_DEPTH_SIZE, 24,
-            EGL_NONE
-    };
+    ALOGI("majarVersion:%d,minorVersion:%d", majarVersion, minorVersion);
+
+    EGLint attribList[] =
+            {
+                    EGL_RED_SIZE, 8,
+                    EGL_GREEN_SIZE, 8,
+                    EGL_BLUE_SIZE, 8,
+                    EGL_ALPHA_SIZE, 8,
+                    EGL_DEPTH_SIZE, 16,
+                    EGL_STENCIL_SIZE, 8,
+                    EGL_SAMPLE_BUFFERS, 1,
+                    // if EGL_KHR_create_context extension is supported, then we will use
+                    // EGL_OPENGL_ES3_BIT_KHR instead of EGL_OPENGL_ES2_BIT in the attribute list
+                    EGL_RENDERABLE_TYPE, GetContextRenderableType(eglDisplay),
+                    EGL_NONE
+            };
     const EGLint MAX_CONFIG = 1;
     EGLint numConfigs;
-    if (!eglChooseConfig(eglDisplay, configAttribes, &eglConfig, MAX_CONFIG, &numConfigs)) {
+    if (!eglChooseConfig(eglDisplay, attribList, &eglConfig, MAX_CONFIG, &numConfigs)) {
         ALOGI("failed to pass eglChooseConfig");
         eglTerminate(eglDisplay);
         eglDisplay = EGL_NO_DISPLAY;

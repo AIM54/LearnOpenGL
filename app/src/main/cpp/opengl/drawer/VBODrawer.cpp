@@ -3,10 +3,8 @@
 //
 
 #include "VBODrawer.h"
-#include <GLES3/gl3.h>
-#include <EGL/egl.h>
-#include <EGL/eglext.h>
 
+#include "LogUtil.h"
 #define  VERTEX_POS_INDEX 0
 #define  VERTEX_POS_SIZE  3
 
@@ -48,6 +46,7 @@ int VBODrawer::initSurface(JNIEnv *jniEnv, jobject surface) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indics), indics, GL_STATIC_DRAW);
     ALOGI("before genVAO");
     glGenVertexArrays(1, &vao);
+    GO_CHECK_GL_ERROR();
     ALOGI("after genVAO");
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, ebo[0]);
