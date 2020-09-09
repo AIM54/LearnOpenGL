@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.Surface;
 
 import com.bian.learnopengl.nativeutil.MyRender;
-import com.bian.learnopengl.util.LogUtils;
 
 public class OpenglActivity extends AppCompatActivity implements MySurfaceView.Render {
     private MySurfaceView surfaceView;
