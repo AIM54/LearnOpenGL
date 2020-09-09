@@ -50,11 +50,8 @@ int BaseRender::initSurface(JNIEnv *jniEnv, jobject surface) {
                     EGL_GREEN_SIZE, 8,
                     EGL_BLUE_SIZE, 8,
                     EGL_ALPHA_SIZE, 8,
-                    EGL_DEPTH_SIZE, 16,
+                    EGL_DEPTH_SIZE, 24,
                     EGL_STENCIL_SIZE, 8,
-                    EGL_SAMPLE_BUFFERS, 1,
-                    // if EGL_KHR_create_context extension is supported, then we will use
-                    // EGL_OPENGL_ES3_BIT_KHR instead of EGL_OPENGL_ES2_BIT in the attribute list
                     EGL_RENDERABLE_TYPE, GetContextRenderableType(eglDisplay),
                     EGL_NONE
             };
