@@ -4,7 +4,7 @@
 # Sets the minimum version of CMake required to build the native library.
 
 cmake_minimum_required(VERSION 3.4.1)
-
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/jniLibs/${ANDROID_ABI})
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions -Wall")
 if (${ANDROID_PLATFORM_LEVEL} LESS 12)
@@ -27,25 +27,10 @@ include_directories(
 
 set(jniPath "${CMAKE_CURRENT_SOURCE_DIR}/../jniLib")
 set(PATH_TO_MEDIACORE ${CMAKE_SOURCE_DIR})
-# Creates and names a library, sets it as either STATIC
-# or SHARED, and provides the relative paths to its source code.
-# You can define multiple libraries, and CMake builds them for you.
-# Gradle automatically packages shared libraries with your APK.
+
 file(GLOB FILES_C "${PATH_TO_MEDIACORE}/glbase/*.c")
 file(GLOB FILE_RENDER_BASE "${PATH_TO_MEDIACORE}/opengl/*.cpp")
 file(GLOB FILE_RENDER "${PATH_TO_MEDIACORE}/opengl/drawer/*.cpp")
-add_library( # Sets the name of the library.
-        native-lib
-        # Sets the library as a shared library.
-        SHARED
-
-        # Provides a relative path to your source file(s).
-        ${FILES_C}
-        ${FILE_RENDER}
-        ${FILE_RENDER_BASE}
-        JNIControler.cpp
-        gl3stub.c)
-
 
 add_library(assimp SHARED IMPORTED)
 set_target_properties(assimp PROPERTIES IMPORTED_LOCATION ${jniPath}/${ANDROID_ABI}/libassimp.so)
@@ -73,40 +58,7 @@ set_target_properties(swresample PROPERTIES IMPORTED_LOCATION ${jniPath}/${ANDRO
 
 add_library(swscale SHARED IMPORTED)
 set_target_properties(swscale PROPERTIES IMPORTED_LOCATION ${jniPath}/${ANDROID_ABI}/libswscale.so)
+# Metadata库
+add_subdirectory(${CMAKE_SOURCE_DIR}/opengl)
+add_subdirectory(${CMAKE_SOURCE_DIR}/glsurface)
 
-
-# Searches for a specified prebuilt library and stores the path as a
-# variable. Because CMake includes system libraries in the search path by
-# default, you only need to specify the name of the public NDK library
-# you want to add. CMake verifies that the library exists before
-# completing its build.
-
-find_library( # Sets the name of the path variable.
-        log-lib
-
-        # Specifies the name of the NDK library that
-        # you want CMake to locate.
-        log)
-
-# Specifies libraries CMake should link to your target library. You
-# can link multiple libraries, such as libraries you define in this
-# build script, prebuilt third-party libraries, or system libraries.
-
-target_link_libraries( # Specifies the target library.
-        native-lib
-        assimp
-        avcodec
-        avdevice
-        avfilter
-        avformat
-        avutil
-        postproc
-        swresample
-        swscale
-        # Links the target library to the log library
-        # included in the NDK.
-        ${OPENGL_LIB}
-        android
-        EGL
-        ${log-lib}
-        m)

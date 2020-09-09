@@ -10,6 +10,12 @@
 #include "gl3stub.h"
 #include "RenderFactory.h"
 
+extern "C" {
+#include "libavformat/avformat.h"
+}
+
+#include "version.h"
+
 #define MY_OPENGL_RENDER  "com/bian/learnopengl/nativeutil/MyRender"
 
 #define NELE(x) sizeof(x)/sizeof(x[0])
@@ -72,7 +78,10 @@ void init(JNIEnv
     ALOGI("the renderType is :%d", renderType);
     if (mCurrentRender) {
         delete mCurrentRender;
+        mCurrentRender = nullptr;
     }
+    ALOGI("avformat_license:%s", avformat_license());
+    ALOGI("aiGetLegalString:%s", aiGetLegalString());
     mCurrentRender = createRender(renderType, manager);
 }
 
@@ -83,6 +92,7 @@ jint initSurface(JNIEnv
     if (gl3stubInit() != GL_TRUE) {
         return GL_FALSE;
     }
+
     mCurrentRender->initSurface(env, surface);
     return GL_TRUE;
 }
@@ -93,7 +103,9 @@ jint onSizeChanged(JNIEnv
                    width,
                    jint height
 ) {
-    mCurrentRender->onSizeChanged(width, height);
+    if (mCurrentRender) {
+        mCurrentRender->onSizeChanged(width, height);
+    }
     return 1;
 }
 
@@ -101,7 +113,9 @@ jint draw(JNIEnv
           *env,
           jobject thiz
 ) {
-    mCurrentRender->draw();
+    if (mCurrentRender) {
+        mCurrentRender->draw();
+    }
     return 1;
 }
 
@@ -123,7 +137,9 @@ jint destroyView(JNIEnv
                  *env,
                  jobject thiz
 ) {
-    mCurrentRender->destroyView();
+    if (mCurrentRender) {
+        mCurrentRender->destroyView();
+    }
     return 1;
 }
 

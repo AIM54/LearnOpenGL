@@ -42,13 +42,16 @@
 //  Includes
 //
 #include <stdlib.h>
+#include <time.h>
 
 #ifdef __APPLE__
 #include <OpenGLES/ES3/gl.h>
 #else
+
 #include <GLES3/gl3.h>
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
+
 #endif
 #ifdef __cplusplus
 
@@ -90,52 +93,53 @@ extern "C" {
 #define TRUE 1
 #endif
 
-typedef struct
-{
-   GLfloat   m[4][4];
+typedef struct {
+    GLfloat m[4][4];
 } ESMatrix;
 
 typedef struct ESContext ESContext;
 
-struct ESContext
-{
-   /// Put platform specific data here
-   void       *platformData;
+struct ESContext {
+    /// Put platform specific data here
+    void *platformData;
 
-   /// Put your user data here...
-   void       *userData;
+    /// Put your user data here...
+    void *userData;
 
-   /// Window width
-   GLint       width;
+    /// Window width
+    GLint width;
 
-   /// Window height
-   GLint       height;
+    /// Window height
+    GLint height;
 
 #ifndef __APPLE__
-   /// Display handle
-   EGLNativeDisplayType eglNativeDisplay;
+    /// Display handle
+    EGLNativeDisplayType eglNativeDisplay;
 
-   /// Window handle
-   EGLNativeWindowType  eglNativeWindow;
+    /// Window handle
+    EGLNativeWindowType eglNativeWindow;
 
-   /// EGL display
-   EGLDisplay  eglDisplay;
+    /// EGL display
+    EGLDisplay eglDisplay;
 
-   /// EGL context
-   EGLContext  eglContext;
+    /// EGL context
+    EGLContext eglContext;
 
-   /// EGL surface
-   EGLSurface  eglSurface;
+    /// EGL surface
+    EGLSurface eglSurface;
 #endif
 
-   /// Callbacks
-   void ( ESCALLBACK *drawFunc ) ( ESContext * );
-   void ( ESCALLBACK *shutdownFunc ) ( ESContext * );
-   void ( ESCALLBACK *keyFunc ) ( ESContext *, unsigned char, int, int );
-   void ( ESCALLBACK *updateFunc ) ( ESContext *, float deltaTime );
+    /// Callbacks
+    void ( ESCALLBACK *drawFunc )(ESContext *);
+
+    void ( ESCALLBACK *shutdownFunc )(ESContext *);
+
+    void ( ESCALLBACK *keyFunc )(ESContext *, unsigned char, int, int);
+
+    void ( ESCALLBACK *updateFunc )(ESContext *, float deltaTime);
 };
 
-
+EGLint  ESUTIL_API GetContextRenderableType(EGLDisplay eglDisplay);
 ///
 //  Public Functions
 //
@@ -153,41 +157,47 @@ struct ESContext
 ///         ES_WINDOW_STENCIL - specifies that a stencil buffer should be created
 ///         ES_WINDOW_MULTISAMPLE - specifies that a multi-sample buffer should be created
 /// \return GL_TRUE if window creation is succesful, GL_FALSE otherwise
-GLboolean ESUTIL_API esCreateWindow ( ESContext *esContext, const char *title, GLint width, GLint height, GLuint flags );
+GLboolean ESUTIL_API
+esCreateWindow(ESContext *esContext, const char *title, GLint width, GLint height, GLuint flags);
 
 //
 /// \brief Register a draw callback function to be used to render each frame
 /// \param esContext Application context
 /// \param drawFunc Draw callback function that will be used to render the scene
 //
-void ESUTIL_API esRegisterDrawFunc ( ESContext *esContext, void ( ESCALLBACK *drawFunc ) ( ESContext * ) );
+void ESUTIL_API
+esRegisterDrawFunc(ESContext *esContext, void ( ESCALLBACK *drawFunc )(ESContext *));
 
 //
 /// \brief Register a callback function to be called on shutdown
 /// \param esContext Application context
 /// \param shutdownFunc Shutdown callback function
 //
-void ESUTIL_API esRegisterShutdownFunc ( ESContext *esContext, void ( ESCALLBACK *shutdownFunc ) ( ESContext * ) );
+void ESUTIL_API
+esRegisterShutdownFunc(ESContext *esContext, void ( ESCALLBACK *shutdownFunc )(ESContext *));
 
 //
 /// \brief Register an update callback function to be used to update on each time step
 /// \param esContext Application context
 /// \param updateFunc Update callback function that will be used to render the scene
 //
-void ESUTIL_API esRegisterUpdateFunc ( ESContext *esContext, void ( ESCALLBACK *updateFunc ) ( ESContext *, float ) );
+void ESUTIL_API
+esRegisterUpdateFunc(ESContext *esContext, void ( ESCALLBACK *updateFunc )(ESContext *, float));
 
 //
 /// \brief Register a keyboard input processing callback function
 /// \param esContext Application context
 /// \param keyFunc Key callback function for application processing of keyboard input
 //
-void ESUTIL_API esRegisterKeyFunc ( ESContext *esContext,
-                                    void ( ESCALLBACK *drawFunc ) ( ESContext *, unsigned char, int, int ) );
+void ESUTIL_API esRegisterKeyFunc(ESContext *esContext,
+                                  void ( ESCALLBACK *drawFunc )(ESContext *, unsigned char, int,
+                                                                int));
+
 //
 /// \brief Log a message to the debug output for the platform
 /// \param formatStr Format string for error log.
 //
-void ESUTIL_API esLogMessage ( const char *formatStr, ... );
+void ESUTIL_API esLogMessage(const char *formatStr, ...);
 
 //
 ///
@@ -196,7 +206,7 @@ void ESUTIL_API esLogMessage ( const char *formatStr, ... );
 /// \param shaderSrc Shader source string
 /// \return A new shader object on success, 0 on failure
 //
-GLuint ESUTIL_API esLoadShader ( GLenum type, const char *shaderSrc );
+GLuint ESUTIL_API esLoadShader(GLenum type, const char *shaderSrc);
 
 //
 ///
@@ -206,7 +216,7 @@ GLuint ESUTIL_API esLoadShader ( GLenum type, const char *shaderSrc );
 /// \param fragShaderSrc Fragment shader source code
 /// \return A new program object linked with the vertex/fragment shader pair, 0 on failure
 //
-GLuint ESUTIL_API esLoadProgram ( const char *vertShaderSrc, const char *fragShaderSrc );
+GLuint ESUTIL_API esLoadProgram(const char *vertShaderSrc, const char *fragShaderSrc);
 
 
 //
@@ -220,8 +230,8 @@ GLuint ESUTIL_API esLoadProgram ( const char *vertShaderSrc, const char *fragSha
 /// \return The number of indices required for rendering the buffers (the number of indices stored in the indices array
 ///         if it is not NULL ) as a GL_TRIANGLE_STRIP
 //
-int ESUTIL_API esGenSphere ( int numSlices, float radius, GLfloat **vertices, GLfloat **normals,
-                             GLfloat **texCoords, GLuint **indices );
+int ESUTIL_API esGenSphere(int numSlices, float radius, GLfloat **vertices, GLfloat **normals,
+                           GLfloat **texCoords, GLuint **indices);
 
 //
 /// \brief Generates geometry for a cube.  Allocates memory for the vertex data and stores
@@ -234,8 +244,8 @@ int ESUTIL_API esGenSphere ( int numSlices, float radius, GLfloat **vertices, GL
 /// \return The number of indices required for rendering the buffers (the number of indices stored in the indices array
 ///         if it is not NULL ) as a GL_TRIANGLES
 //
-int ESUTIL_API esGenCube ( float scale, GLfloat **vertices, GLfloat **normals,
-                           GLfloat **texCoords, GLuint **indices );
+int ESUTIL_API esGenCube(float scale, GLfloat **vertices, GLfloat **normals,
+                         GLfloat **texCoords, GLuint **indices);
 
 //
 /// \brief Generates a square grid consisting of triangles.  Allocates memory for the vertex data and stores
@@ -246,7 +256,7 @@ int ESUTIL_API esGenCube ( float scale, GLfloat **vertices, GLfloat **normals,
 /// \return The number of indices required for rendering the buffers (the number of indices stored in the indices array
 ///         if it is not NULL ) as a GL_TRIANGLES
 //
-int ESUTIL_API esGenSquareGrid ( int size, GLfloat **vertices, GLuint **indices );
+int ESUTIL_API esGenSquareGrid(int size, GLfloat **vertices, GLuint **indices);
 
 //
 /// \brief Loads a 8-bit, 24-bit or 32-bit TGA image from a file
@@ -256,7 +266,7 @@ int ESUTIL_API esGenSquareGrid ( int size, GLfloat **vertices, GLuint **indices 
 /// \param height Height of loaded image in pixels
 ///  \return Pointer to loaded image.  NULL on failure.
 //
-char *ESUTIL_API esLoadTGA ( void *ioContext, const char *fileName, int *width, int *height );
+char *ESUTIL_API esLoadTGA(void *ioContext, const char *fileName, int *width, int *height);
 
 
 //
@@ -264,14 +274,14 @@ char *ESUTIL_API esLoadTGA ( void *ioContext, const char *fileName, int *width, 
 /// \param result Specifies the input matrix.  Scaled matrix is returned in result.
 /// \param sx, sy, sz Scale factors along the x, y and z axes respectively
 //
-void ESUTIL_API esScale ( ESMatrix *result, GLfloat sx, GLfloat sy, GLfloat sz );
+void ESUTIL_API esScale(ESMatrix *result, GLfloat sx, GLfloat sy, GLfloat sz);
 
 //
 /// \brief Multiply matrix specified by result with a translation matrix and return new matrix in result
 /// \param result Specifies the input matrix.  Translated matrix is returned in result.
 /// \param tx, ty, tz Scale factors along the x, y and z axes respectively
 //
-void ESUTIL_API esTranslate ( ESMatrix *result, GLfloat tx, GLfloat ty, GLfloat tz );
+void ESUTIL_API esTranslate(ESMatrix *result, GLfloat tx, GLfloat ty, GLfloat tz);
 
 //
 /// \brief Multiply matrix specified by result with a rotation matrix and return new matrix in result
@@ -279,7 +289,7 @@ void ESUTIL_API esTranslate ( ESMatrix *result, GLfloat tx, GLfloat ty, GLfloat 
 /// \param angle Specifies the angle of rotation, in degrees.
 /// \param x, y, z Specify the x, y and z coordinates of a vector, respectively
 //
-void ESUTIL_API esRotate ( ESMatrix *result, GLfloat angle, GLfloat x, GLfloat y, GLfloat z );
+void ESUTIL_API esRotate(ESMatrix *result, GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
 
 //
 /// \brief Multiply matrix specified by result with a perspective matrix and return new matrix in result
@@ -288,7 +298,9 @@ void ESUTIL_API esRotate ( ESMatrix *result, GLfloat angle, GLfloat x, GLfloat y
 /// \param bottom, top Coordinates for the bottom and top horizontal clipping planes
 /// \param nearZ, farZ Distances to the near and far depth clipping planes.  Both distances must be positive.
 //
-void ESUTIL_API esFrustum ( ESMatrix *result, float left, float right, float bottom, float top, float nearZ, float farZ );
+void ESUTIL_API
+esFrustum(ESMatrix *result, float left, float right, float bottom, float top, float nearZ,
+          float farZ);
 
 //
 /// \brief Multiply matrix specified by result with a perspective matrix and return new matrix in result
@@ -298,7 +310,7 @@ void ESUTIL_API esFrustum ( ESMatrix *result, float left, float right, float bot
 /// \param nearZ Near plane distance
 /// \param farZ Far plane distance
 //
-void ESUTIL_API esPerspective ( ESMatrix *result, float fovy, float aspect, float nearZ, float farZ );
+void ESUTIL_API esPerspective(ESMatrix *result, float fovy, float aspect, float nearZ, float farZ);
 
 //
 /// \brief Multiply matrix specified by result with a perspective matrix and return new matrix in result
@@ -307,20 +319,22 @@ void ESUTIL_API esPerspective ( ESMatrix *result, float fovy, float aspect, floa
 /// \param bottom, top Coordinates for the bottom and top horizontal clipping planes
 /// \param nearZ, farZ Distances to the near and far depth clipping planes.  These values are negative if plane is behind the viewer
 //
-void ESUTIL_API esOrtho ( ESMatrix *result, float left, float right, float bottom, float top, float nearZ, float farZ );
+void ESUTIL_API
+esOrtho(ESMatrix *result, float left, float right, float bottom, float top, float nearZ,
+        float farZ);
 
 //
 /// \brief Perform the following operation - result matrix = srcA matrix * srcB matrix
 /// \param result Returns multiplied matrix
 /// \param srcA, srcB Input matrices to be multiplied
 //
-void ESUTIL_API esMatrixMultiply ( ESMatrix *result, ESMatrix *srcA, ESMatrix *srcB );
+void ESUTIL_API esMatrixMultiply(ESMatrix *result, ESMatrix *srcA, ESMatrix *srcB);
 
 //
 //// \brief Return an identity matrix
 //// \param result Returns identity matrix
 //
-void ESUTIL_API esMatrixLoadIdentity ( ESMatrix *result );
+void ESUTIL_API esMatrixLoadIdentity(ESMatrix *result);
 
 //
 /// \brief Generate a transformation matrix from eye position, look at and up vectors
@@ -330,10 +344,13 @@ void ESUTIL_API esMatrixLoadIdentity ( ESMatrix *result );
 /// \param upX, upY, upZ              up vector
 //
 void ESUTIL_API
-esMatrixLookAt ( ESMatrix *result,
-                 float posX,    float posY,    float posZ,
-                 float lookAtX, float lookAtY, float lookAtZ,
-                 float upX,     float upY,     float upZ );
+esMatrixLookAt(ESMatrix *result,
+               float posX, float posY, float posZ,
+               float lookAtX, float lookAtY, float lookAtZ,
+               float upX, float upY, float upZ);
+
+float ESUTIL_API
+GetCurrentTime();
 
 #ifdef __cplusplus
 }

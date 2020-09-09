@@ -107,7 +107,8 @@ typedef struct
 //    Check whether EGL_KHR_create_context extension is supported.  If so,
 //    return EGL_OPENGL_ES3_BIT_KHR instead of EGL_OPENGL_ES2_BIT
 //
-EGLint GetContextRenderableType(EGLDisplay eglDisplay) {
+EGLint
+ESUTIL_API GetContextRenderableType(EGLDisplay eglDisplay) {
 #ifdef EGL_KHR_create_context
     const char *extensions = eglQueryString(eglDisplay, EGL_EXTENSIONS);
 
@@ -141,6 +142,15 @@ EGLint GetContextRenderableType(EGLDisplay eglDisplay) {
 //          ES_WINDOW_STENCIL     - specifies that a stencil buffer should be created
 //          ES_WINDOW_MULTISAMPLE - specifies that a multi-sample buffer should be created
 //
+
+float ESUTIL_API
+GetCurrentTime() {
+    struct timespec clockRealTime;
+    clock_gettime(CLOCK_MONOTONIC, &clockRealTime);
+    double curTimeInSeconds = clockRealTime.tv_sec + (double) clockRealTime.tv_nsec / 1e9;
+    return (float) curTimeInSeconds;
+}
+
 GLboolean ESUTIL_API
 esCreateWindow(ESContext *esContext, const char *title, GLint width, GLint height, GLuint flags) {
 #ifndef __APPLE__
@@ -285,7 +295,7 @@ void ESUTIL_API esLogMessage(const char *formatStr, ...) {
     vsprintf(buf, formatStr, params);
 
 #ifdef ANDROID
-    __android_log_print(ANDROID_LOG_INFO, "esUtil", "%s", buf);
+    __android_log_print(ANDROID_LOG_INFO, "BIAN", "%s", buf);
 #else
     printf ( "%s", buf );
 #endif
