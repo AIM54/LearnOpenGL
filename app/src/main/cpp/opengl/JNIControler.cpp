@@ -10,6 +10,12 @@
 #include "gl3stub.h"
 #include "RenderFactory.h"
 
+extern "C" {
+#include "libavformat/avformat.h"
+}
+
+#include "version.h"
+
 #define MY_OPENGL_RENDER  "com/bian/learnopengl/nativeutil/MyRender"
 
 #define NELE(x) sizeof(x)/sizeof(x[0])
@@ -74,6 +80,8 @@ void init(JNIEnv
         delete mCurrentRender;
         mCurrentRender = nullptr;
     }
+    ALOGI("avformat_license:%s", avformat_license());
+    ALOGI("aiGetLegalString:%s", aiGetLegalString());
     mCurrentRender = createRender(renderType, manager);
 }
 

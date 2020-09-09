@@ -29,7 +29,7 @@ public class MyRender {
         System.loadLibrary("avdevice");
         System.loadLibrary("avcodec");
         System.loadLibrary("assimp");
-        System.loadLibrary("native-lib");
+        System.loadLibrary("gltest");
     }
 
     public native void init(AssetManager assetManager);
