@@ -13,6 +13,7 @@
 extern "C" {
 #include "libavformat/avformat.h"
 #include "libavcodec/avcodec.h"
+#include "AssetReader.h"
 }
 static JNINativeMethod renderMethods[] = {
         {"onSurfaceCreated", "(Landroid/content/res/AssetManager;)V", (void *) onSurfaceCreated},
@@ -67,12 +68,17 @@ void onSurfaceCreated(JNIEnv
     ALOGI("onSurfaceCreated");
     ALOGI("avformat_license:%s", avformat_license());
     ALOGI("aiGetLegalString:%s", aiGetLegalString());
-    ALOGI("avcodec_configuration:%s", avcodec_configuration());
+    ALOGI("aiGetLegalString:%s", avcodec_configuration());
 
     AAssetManager *manager = AAssetManager_fromJava(env, assert);
+    char *verticalShader = readStringFromAssert(manager, "VAOVerticalShader.glsl");
+    char *framgentShader = readStringFromAssert(manager, "VAOFragmentShader.glsl");
     if (!firstVaoRender) {
         firstVaoRender = new FirstVAORender();
     }
+    firstVaoRender->init(verticalShader, framgentShader);
+    free(framgentShader);
+    free(verticalShader);
 }
 
 void onSurfaceChanged(JNIEnv
@@ -82,7 +88,6 @@ void onSurfaceChanged(JNIEnv
                       width,
                       jint height
 ) {
-    ALOGI("onSurfaceChanged(%d,%d)", width, height);
     if (firstVaoRender) {
         firstVaoRender->onSizeChanged(width, height);
     }
@@ -92,7 +97,6 @@ void onDrawFrame(JNIEnv
                  *env,
                  jobject thiz
 ) {
-    ALOGI("onDrawFrame");
     if (firstVaoRender) {
         firstVaoRender->onDraw();
     }

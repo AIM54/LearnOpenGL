@@ -16,6 +16,7 @@ add_library( # Sets the name of the library.
         androidGL
         # Sets the library as a shared library.
         SHARED
+        ${FILES_C}
         render/FirstVAORender.cpp
         GLJNIController.cpp
         ../gl3stub.c)
