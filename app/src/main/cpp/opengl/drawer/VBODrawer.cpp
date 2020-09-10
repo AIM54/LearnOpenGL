@@ -36,23 +36,23 @@ int VBODrawer::initSurface(JNIEnv *jniEnv, jobject surface) {
     free(fragmentShader);
     verticalShader = nullptr;
     fragmentShader = nullptr;
-    GLfloat verticals[3 * (VERTEX_POS_SIZE + COLOR_POS_SIZE)] = {
-            0.0f, 0.5f, 0.0f,        // v0
-            1.0f, 0.0f, 0.0f, 1.0f,  // c0
-            -0.5f, -0.5f, 0.0f,        // v1
+    GLfloat verticals[4 * (VERTEX_POS_SIZE + COLOR_POS_SIZE)] = {
+            -0.8f, 0.8f, 0.0f,        // v0
+            1.0f, 1.0f, 0.0f, 1.0f,  // c0
+            -0.8f, -0.8f, 0.0f,        // v1
             0.0f, 1.0f, 0.0f, 1.0f,  // c1
-            0.5f, -0.5f, 0.0f,        // v2
+            0.8f, -0.8f, 0.0f,        // v2
             0.0f, 0.0f, 1.0f, 1.0f,  // c2
+            0.8f, 0.8f, 0.0f,        // v3
+            0.0f, 0.0f, 1.0f, 1.0f,  // c3
     };
-    GLushort indics[3] = {0, 1, 2};
+    GLushort indics[6] = {0, 1, 2, 2, 0, 3};
     glGenBuffers(2, mVBO);
     glBindBuffer(GL_ARRAY_BUFFER, mVBO[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(verticals), verticals, GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mVBO[1]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indics), indics, GL_STATIC_DRAW);
-    ALOGI("before genVAO");
     glGenVertexArrays(1, &mVAO);
-    ALOGI("after genVAO");
     glBindVertexArray(mVAO);
     glBindBuffer(GL_ARRAY_BUFFER, mVBO[0]);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mVBO[1]);
@@ -76,7 +76,7 @@ int VBODrawer::draw() {
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(mProgram);
     glBindVertexArray(mVAO);
-    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, (const void *) 0);
+    glDrawElements(GL_TRIANGLE_STRIP, 6, GL_UNSIGNED_SHORT, (const void *) 0);
     glBindVertexArray(0);
     eglSwapBuffers(eglDisplay, eglSurface);
     return GL_TRUE;
