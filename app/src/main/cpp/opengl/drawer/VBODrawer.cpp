@@ -2,9 +2,11 @@
 // Created by bian on 2020/9/6.
 //
 
+#include "gl3stub.h"
 #include "VBODrawer.h"
 
 #include "LogUtil.h"
+
 #define  VERTEX_POS_INDEX 0
 #define  VERTEX_POS_SIZE  3
 
@@ -26,6 +28,10 @@ int VBODrawer::initSurface(JNIEnv *jniEnv, jobject surface) {
     if (!mProgram) {
         return GL_FALSE;
     }
+    //原来加上下面的这一行就可以了，差点被搞死
+    if (!gl3stubInit()) {
+        return GL_FALSE;
+    }
     free(verticalShader);
     free(fragmentShader);
     verticalShader = nullptr;
@@ -39,18 +45,17 @@ int VBODrawer::initSurface(JNIEnv *jniEnv, jobject surface) {
             0.0f, 0.0f, 1.0f, 1.0f,  // c2
     };
     GLushort indics[3] = {0, 1, 2};
-    glGenBuffers(2, ebo);
-    glBindBuffer(GL_ARRAY_BUFFER, ebo[0]);
+    glGenBuffers(2, mVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, mVBO[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(verticals), verticals, GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[1]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mVBO[1]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indics), indics, GL_STATIC_DRAW);
     ALOGI("before genVAO");
-    glGenVertexArrays(1, &vao);
-    GO_CHECK_GL_ERROR();
+    glGenVertexArrays(1, &mVAO);
     ALOGI("after genVAO");
-    glBindVertexArray(vao);
-    glBindBuffer(GL_ARRAY_BUFFER, ebo[0]);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[1]);
+    glBindVertexArray(mVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, mVBO[0]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mVBO[1]);
     glEnableVertexAttribArray(VERTEX_POS_INDEX);
     glEnableVertexAttribArray(COLOR_POS_INDEX);
     glVertexAttribPointer(VERTEX_POS_INDEX, VERTEX_POS_SIZE, GL_FLOAT, GL_FALSE, VERTEX_STRIDE,
@@ -70,9 +75,10 @@ int VBODrawer::draw() {
     glViewport(0, 0, getWidth(), getHeight());
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(mProgram);
-    glBindVertexArray(vao);
+    glBindVertexArray(mVAO);
     glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, (const void *) 0);
     glBindVertexArray(0);
+    eglSwapBuffers(eglDisplay, eglSurface);
     return GL_TRUE;
 }
 

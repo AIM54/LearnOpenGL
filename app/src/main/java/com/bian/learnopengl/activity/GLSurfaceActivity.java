@@ -21,7 +21,7 @@ public class GLSurfaceActivity extends AppCompatActivity implements GLSurfaceVie
         setContentView(R.layout.activity_opengl2);
         glSurfaceViewRender = new GLSurfaceViewRender();
         mainGlSurfaceView = findViewById(R.id.glsv_main);
-        mainGlSurfaceView.setEGLConfigChooser(8, 8, 8, 0, 16, 0);
+        mainGlSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         mainGlSurfaceView.setEGLContextClientVersion(3);
         mainGlSurfaceView.setRenderer(this);
     }
@@ -34,6 +34,18 @@ public class GLSurfaceActivity extends AppCompatActivity implements GLSurfaceVie
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         glSurfaceViewRender.onSurfaceChanged(width, height);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mainGlSurfaceView.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mainGlSurfaceView.onResume();
     }
 
     @Override

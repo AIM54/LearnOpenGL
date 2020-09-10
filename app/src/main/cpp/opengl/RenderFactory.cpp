@@ -8,6 +8,6 @@
 #include "VBODrawer.h"
 
 BaseRender *createRender(int type, AAssetManager *manager) {
-    BaseRender *baseDrawer = new FirstDrawer(manager);
+    BaseRender *baseDrawer = new VBODrawer(manager,"VAOVerticalShader.glsl","VAOFragmentShader.glsl");
     return baseDrawer;
 }

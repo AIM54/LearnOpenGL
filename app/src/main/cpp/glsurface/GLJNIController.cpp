@@ -73,9 +73,10 @@ void onSurfaceCreated(JNIEnv
     AAssetManager *manager = AAssetManager_fromJava(env, assert);
     char *verticalShader = readStringFromAssert(manager, "VAOVerticalShader.glsl");
     char *framgentShader = readStringFromAssert(manager, "VAOFragmentShader.glsl");
-    if (!firstVaoRender) {
-        firstVaoRender = new FirstVAORender();
+    if (firstVaoRender) {
+        delete firstVaoRender;
     }
+    firstVaoRender = new FirstVAORender();
     firstVaoRender->init(verticalShader, framgentShader);
     free(framgentShader);
     free(verticalShader);
@@ -88,6 +89,7 @@ void onSurfaceChanged(JNIEnv
                       width,
                       jint height
 ) {
+
     if (firstVaoRender) {
         firstVaoRender->onSizeChanged(width, height);
     }
