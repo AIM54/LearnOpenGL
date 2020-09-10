@@ -13,5 +13,11 @@
         android:layout_height="wrap_content"
         android:text="@string/test_opengl" />
 
+    <Button
+        android:id="@+id/bt_test_glsurface"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/test_glsurface" />
+
 
 </LinearLayout>

@@ -31,6 +31,7 @@ set(PATH_TO_MEDIACORE ${CMAKE_SOURCE_DIR})
 file(GLOB FILES_C "${PATH_TO_MEDIACORE}/glbase/*.c")
 file(GLOB FILE_RENDER_BASE "${PATH_TO_MEDIACORE}/opengl/*.cpp")
 file(GLOB FILE_RENDER "${PATH_TO_MEDIACORE}/opengl/drawer/*.cpp")
+file(GLOB SURFACE_RENDER_SOURCE "${PATH_TO_MEDIACORE}/glsurface/render/*.cpp")
 
 add_library(assimp SHARED IMPORTED)
 set_target_properties(assimp PROPERTIES IMPORTED_LOCATION ${jniPath}/${ANDROID_ABI}/libassimp.so)

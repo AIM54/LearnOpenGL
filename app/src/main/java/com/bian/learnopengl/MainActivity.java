@@ -7,9 +7,12 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bian.learnopengl.activity.GLSurfaceActivity;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button testOpenglButton;
+    private Button testGLButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +23,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initView() {
         testOpenglButton = findViewById(R.id.bt_test_opengl);
+        testGLButton = findViewById(R.id.bt_test_glsurface);
         testOpenglButton.setOnClickListener(this);
+        testGLButton.setOnClickListener(this);
     }
 
     @Override
@@ -29,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.bt_test_opengl:
                 it.setClass(this, OpenglActivity.class);
+                break;
+            case R.id.bt_test_glsurface:
+                it.setClass(this, GLSurfaceActivity.class);
                 break;
         }
         startActivity(it);

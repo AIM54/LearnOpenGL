@@ -6,20 +6,25 @@
 #include <android/asset_manager_jni.h>
 #include <android/asset_manager.h>
 #include <ijksdl_log.h>
-#include "gl3stub.h"
 #include "GLJNIController.h"
+#include "FirstVAORender.h"
+#include "version.h"
 
 extern "C" {
+#include "libavformat/avformat.h"
+#include "libavcodec/avcodec.h"
 }
 static JNINativeMethod renderMethods[] = {
-        {"onSurfaceCreated", "()V",   (void *) onSurfaceCreated},
-        {"onDrawFrame",      "()V",   (void *) onDrawFrame},
-        {"onSurfaceChanged", "(II)V", (void *) onSurfaceChanged},
+        {"onSurfaceCreated", "(Landroid/content/res/AssetManager;)V", (void *) onSurfaceCreated},
+        {"onDrawFrame",      "()V",                                   (void *) onDrawFrame},
+        {"onSurfaceChanged", "(II)V",                                 (void *) onSurfaceChanged},
 };
 
 #define MY_OPENGL_RENDER  "com/bian/learnopengl/nativeutil/GLSurfaceViewRender"
 
 #define NELE(x) sizeof(x)/sizeof(x[0])
+
+FirstVAORender *firstVaoRender = nullptr;
 
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     JNIEnv *jniEnv = nullptr;
@@ -52,11 +57,22 @@ JNIEXPORT void JNI_OnUnload(JavaVM *vm, void *reserved) {
     jniEnv->UnregisterNatives(renderClass);
 
 };
+
 void onSurfaceCreated(JNIEnv
                       *env,
-                      jobject thiz
-){
+                      jobject thiz,
+                      jobject
+                      assert
+) {
+    ALOGI("onSurfaceCreated");
+    ALOGI("avformat_license:%s", avformat_license());
+    ALOGI("aiGetLegalString:%s", aiGetLegalString());
+    ALOGI("avcodec_configuration:%s", avcodec_configuration());
 
+    AAssetManager *manager = AAssetManager_fromJava(env, assert);
+    if (!firstVaoRender) {
+        firstVaoRender = new FirstVAORender();
+    }
 }
 
 void onSurfaceChanged(JNIEnv
@@ -65,13 +81,19 @@ void onSurfaceChanged(JNIEnv
                       jint
                       width,
                       jint height
-){
-
+) {
+    ALOGI("onSurfaceChanged(%d,%d)", width, height);
+    if (firstVaoRender) {
+        firstVaoRender->onSizeChanged(width, height);
+    }
 }
 
 void onDrawFrame(JNIEnv
                  *env,
                  jobject thiz
-){
-
+) {
+    ALOGI("onDrawFrame");
+    if (firstVaoRender) {
+        firstVaoRender->onDraw();
+    }
 }
