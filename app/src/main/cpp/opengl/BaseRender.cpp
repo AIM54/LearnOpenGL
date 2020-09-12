@@ -94,7 +94,6 @@ int BaseRender::initSurface(JNIEnv *jniEnv, jobject surface) {
             EGL_CONTEXT_CLIENT_VERSION, 3,
             EGL_NONE
     };
-
     eglContext = eglCreateContext(eglDisplay, eglConfig, EGL_NO_CONTEXT, contextAttribs);
     if (eglContext == EGL_NO_CONTEXT) {
         return EGL_FALSE;
