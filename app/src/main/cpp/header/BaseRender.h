@@ -15,6 +15,7 @@
 #include <GLES3/gl3.h>
 #include <EGL/eglext.h>
 #include <EGL/eglplatform.h>
+#include <KHR/khrplatform.h>
 #include "ijksdl_log.h"
 
 extern "C" {

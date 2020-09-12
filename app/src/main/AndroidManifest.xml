@@ -21,6 +21,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".OpenglActivity" />
         <activity android:name=".VideoListActivity" />
+        <activity android:name=".activity.GLSurfaceActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

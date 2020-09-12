@@ -13,8 +13,8 @@ private:
     char *verticalShader;
 
     char *fragmentShader;
-    GLuint vao;
-    GLuint ebo[2];
+    GLuint mVAO;
+    GLuint mVBO[2];
 protected:
     GLuint mProgram;
 
@@ -25,8 +25,6 @@ public:
     int initSurface(JNIEnv *jniEnv, jobject surface) override;
 
     int draw() override;
-
-
 };
 
 

@@ -16,6 +16,8 @@ add_library( # Sets the name of the library.
         androidGL
         # Sets the library as a shared library.
         SHARED
+        ${FILES_C}
+        render/FirstVAORender.cpp
         GLJNIController.cpp
         ../gl3stub.c)
 
@@ -39,6 +41,14 @@ find_library( # Sets the name of the path variable.
 target_link_libraries( # Specifies the target library.
         androidGL
         assimp
+        avcodec
+        avdevice
+        avfilter
+        avformat
+        avutil
+        postproc
+        swresample
+        swscale
         png
         # Links the target library to the log library
         # included in the NDK.

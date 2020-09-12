@@ -4,6 +4,6 @@
     android:id="@+id/glsv_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.OpenglActivity">
+    tools:context=".activity.GLSurfaceActivity">
 
 </android.opengl.GLSurfaceView>

@@ -9,15 +9,16 @@
 
 void onSurfaceCreated(JNIEnv
                       *env,
-                      jobject thiz
-);
+                      jobject thiz,
+                      jobject
+                      assert);
 
 void onSurfaceChanged(JNIEnv
-                 *env,
-                 jobject thiz,
-                 jint
-                 width,
-                 jint height
+                      *env,
+                      jobject thiz,
+                      jint
+                      width,
+                      jint height
 );
 
 void onDrawFrame(JNIEnv
