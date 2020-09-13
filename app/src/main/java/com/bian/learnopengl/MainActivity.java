@@ -10,6 +10,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bian.learnopengl.activity.GLSurfaceActivity;
+import com.bian.learnopengl.activity.ImageListActivity;
 
 import java.nio.IntBuffer;
 
@@ -17,6 +18,7 @@ import java.nio.IntBuffer;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button testOpenglButton;
     private Button testGLButton;
+    private Button imageListButton;
     private IntBuffer buffers;
 
     @Override
@@ -30,8 +32,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         testOpenglButton = findViewById(R.id.bt_test_opengl);
         testGLButton = findViewById(R.id.bt_test_glsurface);
+        imageListButton = findViewById(R.id.bt_image_list);
         testOpenglButton.setOnClickListener(this);
         testGLButton.setOnClickListener(this);
+        imageListButton.setOnClickListener(this);
     }
 
     @Override
@@ -46,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.bt_test_glsurface:
                 it.setClass(this, GLSurfaceActivity.class);
+                break;
+
+            case R.id.bt_image_list:
+                it.setClass(this, ImageListActivity.class);
                 break;
         }
         startActivity(it);

@@ -23,6 +23,7 @@ include_directories(
         header
         header/assimp
         header/ffmpeg
+        header/png
         opengl)
 
 set(jniPath "${CMAKE_CURRENT_SOURCE_DIR}/../jniLib")
