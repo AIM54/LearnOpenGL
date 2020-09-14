@@ -8,10 +8,9 @@
 
 #include "BaseRender.h"
 
-class PictureDrawer : BaseRender {
+class PictureDrawer : public BaseRender {
 public:
     PictureDrawer(AAssetManager *manager,
-                  const char *verticalPath, const char *fragmentPath,
                   const char *imagePath);
 
     int draw() override;

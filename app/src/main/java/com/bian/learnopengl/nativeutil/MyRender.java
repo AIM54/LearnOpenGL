@@ -3,19 +3,22 @@ package com.bian.learnopengl.nativeutil;
 import android.content.res.AssetManager;
 import android.view.Surface;
 
+import com.bian.learnopengl.util.LogUtils;
+
 public class MyRender {
 
     public int renderType;
     private AssetManager assetManager;
 
     public MyRender(AssetManager assetManager) {
-        this(12, assetManager);
+        this(12, assetManager, null);
     }
 
-    public MyRender(int renderType, AssetManager assetManager) {
-        this.renderType = renderType;
-        this.assetManager = assetManager;
-        init(assetManager);
+    public MyRender(int type, AssetManager manger, String imagePath) {
+        this.renderType = type;
+        this.assetManager = manger;
+        LogUtils.logMessageI(imagePath);
+        init(assetManager, imagePath);
     }
 
 
@@ -32,7 +35,7 @@ public class MyRender {
         System.loadLibrary("gltest");
     }
 
-    public native void init(AssetManager assetManager);
+    public native void init(AssetManager assetManager, String imagePath);
 
 
     public native int initSurface(Surface surface);

@@ -6,8 +6,14 @@
 #include "RenderFactory.h"
 #include "FirstDrawer.h"
 #include "VBODrawer.h"
+#include "PictureDrawer.h"
 
-BaseRender *createRender(int type, AAssetManager *manager) {
-    BaseRender *baseDrawer = new VBODrawer(manager,"VAOVerticalShader.glsl","VAOFragmentShader.glsl");
+BaseRender *createRender(int type, AAssetManager *manager, const char *string) {
+    BaseRender *baseDrawer = nullptr;
+    if (string) {
+        baseDrawer = new PictureDrawer(manager, string);
+    } else {
+        baseDrawer = new VBODrawer(manager, "VAOVerticalShader.glsl", "VAOFragmentShader.glsl");
+    }
     return baseDrawer;
 }

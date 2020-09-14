@@ -24,6 +24,7 @@ include_directories(
         header/assimp
         header/ffmpeg
         header/png
+        header/zlib
         opengl)
 
 set(jniPath "${CMAKE_CURRENT_SOURCE_DIR}/../jniLib")
@@ -34,8 +35,25 @@ file(GLOB FILE_RENDER_BASE "${PATH_TO_MEDIACORE}/opengl/*.cpp")
 file(GLOB FILE_RENDER "${PATH_TO_MEDIACORE}/opengl/drawer/*.cpp")
 file(GLOB SURFACE_RENDER_SOURCE "${PATH_TO_MEDIACORE}/glsurface/render/*.cpp")
 
-add_library(png STATIC IMPORTED)
-set_target_properties(png PROPERTIES IMPORTED_LOCATION ${jniPath}/${ANDROID_ABI}/libpng.a)
+
+add_library(png
+        SHARED
+        IMPORTED)
+
+set_target_properties(png
+        PROPERTIES IMPORTED_LOCATION
+        ${jniPath}/${ANDROID_ABI}/libpng.so
+        )
+
+add_library(zip
+        SHARED
+        IMPORTED)
+
+set_target_properties(zip
+        PROPERTIES IMPORTED_LOCATION
+        ${jniPath}/${ANDROID_ABI}/libz.so
+        )
+
 
 add_library(assimp SHARED IMPORTED)
 set_target_properties(assimp PROPERTIES IMPORTED_LOCATION ${jniPath}/${ANDROID_ABI}/libassimp.so)

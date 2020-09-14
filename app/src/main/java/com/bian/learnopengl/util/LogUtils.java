@@ -35,10 +35,8 @@ public class LogUtils {
         int lineNumber = stackTraceElement.getLineNumber();
 
         logInfoStringBuilder.append("[ ");
-//        logInfoStringBuilder.append("threadID=" + threadID).append(SEPARATOR);
         logInfoStringBuilder.append(threadName).append(SEPARATOR);
         logInfoStringBuilder.append(fileName).append(SEPARATOR);
-//        logInfoStringBuilder.append(className).append(SEPARATOR);
         logInfoStringBuilder.append("lineNumber=" + lineNumber);
         logInfoStringBuilder.append(" ]  ");
         logInfoStringBuilder.append(methodName + ":  ");

@@ -43,7 +43,6 @@ find_library( # Sets the name of the path variable.
 target_link_libraries( # Specifies the target library.
         gltest
         assimp
-        png
         avcodec
         avdevice
         avfilter
@@ -56,7 +55,10 @@ target_link_libraries( # Specifies the target library.
         # included in the NDK.
         ${OPENGL_LIB}
         jnigraphics
+        png
+        zip
         android
         EGL
         ${log-lib}
+        z
         m)

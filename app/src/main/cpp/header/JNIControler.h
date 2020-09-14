@@ -6,10 +6,12 @@
 #define LEARNOPENGL_JNICONTROLER_H
 
 #include <jni.h>
+
 void init(JNIEnv
-                 *env,
-                 jobject thiz, jobject
-                 assert);
+          *env,
+          jobject thiz, jobject
+          assert, jstring imagePath);
+
 jint initSurface(JNIEnv
                  *env,
                  jobject thiz, jobject

@@ -8,6 +8,6 @@
 #include "BaseRender.h"
 #include <android/asset_manager.h>
 
-BaseRender *createRender(int type, AAssetManager *manager);
+BaseRender *createRender(int type, AAssetManager *manager, const char *string);
 
 #endif //LEARNOPENGL_RENDERFACTORY_H

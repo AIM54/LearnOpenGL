@@ -8,15 +8,20 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.bian.learnopengl.OpenglActivity;
 import com.bian.learnopengl.R;
+import com.bian.learnopengl.util.ConstantUtil;
+import com.bian.learnopengl.util.LogUtils;
 
-public class ImageListActivity extends AppCompatActivity  implements LoaderManager.LoaderCallbacks<Cursor>{
+public class ImageListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
     private SimpleCursorAdapter mCursorAdapter;
     private String project[] = new String[]{
             MediaStore.Images.Media._ID,
@@ -53,10 +58,23 @@ public class ImageListActivity extends AppCompatActivity  implements LoaderManag
                 new String[]{MediaStore.Images.Media.DISPLAY_NAME},
                 new int[]{android.R.id.text1}, 0);
         mListView.setAdapter(mCursorAdapter);
+        mListView.setOnItemClickListener(this);
+
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        final Cursor cursor = (Cursor) mCursorAdapter.getItem(position);
+        Intent it = new Intent(this, OpenglActivity.class);
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        LogUtils.logMessageI(path);
+        it.putExtra(ConstantUtil.ARG_IMG, path);
+        startActivity(it);
 
     }
 }

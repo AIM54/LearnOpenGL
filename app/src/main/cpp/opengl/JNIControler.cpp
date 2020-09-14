@@ -23,13 +23,13 @@ extern "C" {
 BaseRender *mCurrentRender;
 
 static JNINativeMethod renderMethods[] = {
-        {"init",          "(Landroid/content/res/AssetManager;)V", (void *) init},
-        {"initSurface",   "(Landroid/view/Surface;)I",             (void *) initSurface},
-        {"onSizeChanged", "(II)I",                                 (void *) onSizeChanged},
-        {"draw",          "()I",                                   (void *) draw},
-        {"pause",         "()I",                                   (void *) pause},
-        {"resume",        "()I",                                   (void *) resume},
-        {"destroyView",   "()I",                                   (void *) destroyView}
+        {"init",          "(Landroid/content/res/AssetManager;Ljava/lang/String;)V", (void *) init},
+        {"initSurface",   "(Landroid/view/Surface;)I",                               (void *) initSurface},
+        {"onSizeChanged", "(II)I",                                                   (void *) onSizeChanged},
+        {"draw",          "()I",                                                     (void *) draw},
+        {"pause",         "()I",                                                     (void *) pause},
+        {"resume",        "()I",                                                     (void *) resume},
+        {"destroyView",   "()I",                                                     (void *) destroyView}
 };
 
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
@@ -71,7 +71,7 @@ JNIEXPORT void JNI_OnUnload(JavaVM *vm, void *reserved) {
 void init(JNIEnv
           *env,
           jobject thiz, jobject
-          assert) {
+          assert, jstring imagePath) {
     AAssetManager *manager = AAssetManager_fromJava(env, assert);
     jclass renderClass = env->FindClass(MY_OPENGL_RENDER);;
     jint renderType = env->GetIntField(thiz, env->GetFieldID(renderClass, "renderType", "I"));
@@ -82,7 +82,13 @@ void init(JNIEnv
     }
     ALOGI("avformat_license:%s", avformat_license());
     ALOGI("aiGetLegalString:%s", aiGetLegalString());
-    mCurrentRender = createRender(renderType, manager);
+    if (imagePath) {
+        const char *imageUrl = env->GetStringUTFChars(imagePath, 0);
+        mCurrentRender = createRender(renderType, manager, imageUrl);
+        env->ReleaseStringUTFChars(imagePath, imageUrl);
+    } else {
+        mCurrentRender = createRender(renderType, manager, nullptr);
+    }
 }
 
 jint initSurface(JNIEnv

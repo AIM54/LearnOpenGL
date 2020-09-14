@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Surface;
 
 import com.bian.learnopengl.nativeutil.MyRender;
+import com.bian.learnopengl.util.ConstantUtil;
 
 public class OpenglActivity extends AppCompatActivity implements MySurfaceView.Render {
     private MySurfaceView surfaceView;
@@ -17,7 +18,7 @@ public class OpenglActivity extends AppCompatActivity implements MySurfaceView.R
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opengl);
         initView();
-        myRender = new MyRender(getAssets());
+        myRender = new MyRender(12,getAssets(),getIntent().getStringExtra(ConstantUtil.ARG_IMG));
     }
 
     private void initView() {

@@ -83,8 +83,9 @@ int VBODrawer::draw() {
 }
 
 int VBODrawer::destroyView() {
-    glDeleteVertexArrays(1, &mVAO);
+    glDeleteProgram(mProgram);
     glDeleteBuffers(2, mVBO);
-
+    glDeleteVertexArrays(1, &mVAO);
+    return GL_TRUE;
 }
 
