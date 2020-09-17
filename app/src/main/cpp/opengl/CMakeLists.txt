@@ -23,6 +23,12 @@ add_library( # Sets the name of the library.
         JNIControler.cpp
         ../gl3stub.c)
 
+
+add_library(png
+        STATIC
+        IMPORTED)
+set_target_properties(png PROPERTIES IMPORTED_LOCATION ${jniPath}/${ANDROID_ABI}/libpng.a)
+
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
 # default, you only need to specify the name of the public NDK library
@@ -42,6 +48,7 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries( # Specifies the target library.
         gltest
+        png
         assimp
         avcodec
         avdevice
@@ -55,10 +62,7 @@ target_link_libraries( # Specifies the target library.
         # included in the NDK.
         ${OPENGL_LIB}
         jnigraphics
-        png
-        zip
         android
         EGL
         ${log-lib}
-        z
         m)

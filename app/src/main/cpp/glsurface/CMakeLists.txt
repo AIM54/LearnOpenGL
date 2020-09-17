@@ -49,12 +49,12 @@ target_link_libraries( # Specifies the target library.
         postproc
         swresample
         swscale
-        png
         # Links the target library to the log library
         # included in the NDK.
         ${OPENGL_LIB}
         jnigraphics
         android
         EGL
+        z
         ${log-lib}
         m)
