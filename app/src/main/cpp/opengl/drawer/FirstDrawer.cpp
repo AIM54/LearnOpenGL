@@ -5,8 +5,8 @@
 #include "FirstDrawer.h"
 
 FirstDrawer::FirstDrawer(AAssetManager *manager) : BaseRender(manager) {
-    verticalShader = readStringFromAssert(manager, "FirstVerticalShader.glsl");
-    fragmentShader = readStringFromAssert(manager, "FirstFragmentShader.glsl");
+    verticalShader = readStringFromAssert(manager, "shaders/FirstVerticalShader.glsl");
+    fragmentShader = readStringFromAssert(manager, "shaders/FirstFragmentShader.glsl");
 }
 
 int FirstDrawer::initSurface(JNIEnv *jniEnv, jobject surface) {

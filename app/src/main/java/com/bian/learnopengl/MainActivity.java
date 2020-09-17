@@ -1,5 +1,6 @@
 package com.bian.learnopengl;
 
+import android.Manifest;
 import android.content.Intent;
 import android.opengl.GLES31;
 import android.os.Build;
@@ -8,11 +9,14 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.bian.learnopengl.activity.GLSurfaceActivity;
 import com.bian.learnopengl.activity.ImageListActivity;
 
 import java.nio.IntBuffer;
+
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -26,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        buffers = IntBuffer.allocate(10);
     }
 
     private void initView() {
@@ -40,12 +43,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 110);
+            return;
+        }
         Intent it = new Intent();
         switch (v.getId()) {
             case R.id.bt_test_opengl:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                    GLES31.glGenVertexArrays(1, buffers);
-                }
                 it.setClass(this, OpenglActivity.class);
                 break;
             case R.id.bt_test_glsurface:

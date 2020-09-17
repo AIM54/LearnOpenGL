@@ -22,12 +22,14 @@ PictureDrawer::PictureDrawer(AAssetManager *manager,
             png_destroy_write_struct(&png_ptr, NULL);
             return;
         }
+
         if (setjmp(png_jmpbuf(png_ptr))) {
             fclose(file);
             png_destroy_write_struct(&png_ptr, &info_ptr);
             ALOGI("onDestroy");
             return;
         }
+        ALOGI("png_init_io");
         //开始读文件
         png_init_io(png_ptr, file);
 
@@ -39,12 +41,21 @@ PictureDrawer::PictureDrawer(AAssetManager *manager,
 
         //获取图像的色彩类型
         int color_type = png_get_color_type(png_ptr, info_ptr);
+        int picChannel = png_get_channels(png_ptr, info_ptr);
+        int bitDepth = png_get_bit_depth(png_ptr, info_ptr);
 
-        ALOGI("width=%d,height=%d,color_type=%d", m_width, m_height, color_type);
-
-        // row_pointers内部存放的就是RGBA数据了
+        ALOGI("width=%d,height=%d,color_type=%d,bitDepth=:%d,channel=%d", m_width, m_height,
+              color_type,
+              bitDepth, picChannel);
         png_bytep *row_pointers = png_get_rows(png_ptr, info_ptr);
-
+        switch (color_type) {
+            case PNG_COLOR_TYPE_RGB:
+                ALOGI("PNG_COLOR_TYPE_RGB");
+                break;
+            case PNG_COLOR_TYPE_RGBA:
+                ALOGI("PNG_COLOR_TYPE_RGBA");
+                break;
+        }
         png_destroy_read_struct(&png_ptr, &info_ptr, 0);
         fclose(file);
     }

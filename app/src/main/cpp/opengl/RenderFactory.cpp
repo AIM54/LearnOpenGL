@@ -13,7 +13,8 @@ BaseRender *createRender(int type, AAssetManager *manager, const char *string) {
     if (string) {
         baseDrawer = new PictureDrawer(manager, string);
     } else {
-        baseDrawer = new VBODrawer(manager, "VAOVerticalShader.glsl", "VAOFragmentShader.glsl");
+        baseDrawer = new VBODrawer(manager, "shaders/VAOVerticalShader.glsl",
+                                   "shaders/VAOFragmentShader.glsl");
     }
     return baseDrawer;
 }

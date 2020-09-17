@@ -64,7 +64,8 @@ set_target_properties(swresample PROPERTIES IMPORTED_LOCATION ${jniPath}/${ANDRO
 
 add_library(swscale SHARED IMPORTED)
 set_target_properties(swscale PROPERTIES IMPORTED_LOCATION ${jniPath}/${ANDROID_ABI}/libswscale.so)
-# Metadata库
+
+#自己编写的两个库
 add_subdirectory(${CMAKE_SOURCE_DIR}/opengl)
 add_subdirectory(${CMAKE_SOURCE_DIR}/glsurface)
 
