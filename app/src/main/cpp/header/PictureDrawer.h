@@ -28,7 +28,7 @@ public:
 
 
     int initSurface(JNIEnv *jniEnv, jobject surface) override;
-
+    int destroyView() override;
 
 };
 

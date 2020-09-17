@@ -61,22 +61,17 @@ PictureDrawer::PictureDrawer(AAssetManager *manager,
               color_type,
               bitDepth, picChannel);
         png_bytep *row_pointers = png_get_rows(png_ptr, info_ptr);
-        switch (color_type) {
-            case PNG_COLOR_TYPE_RGB:
-                ALOGI("PNG_COLOR_TYPE_RGB");
-                break;
-            case PNG_COLOR_TYPE_RGBA:
-                imageData = new uint8_t[image_height * image_width * picChannel];
-                for (int row = 0; row < image_height; ++row) {
-                    for (int column = 0; column < image_width * picChannel; column += picChannel) {
-                        for (int bitOffset = 0; bitOffset < picChannel; ++bitOffset) {
-                            //libpng加载出来的是abgr 的布局,我们需要颠倒下数据
-                            imageData[row * column + bitOffset] = row_pointers[row][
-                                    column + (picChannel - bitOffset - 1)];
-                        }
-                    }
+        if (color_type == PNG_COLOR_TYPE_RGBA) {
+            int pos = 0;
+            imageData = new uint8_t[image_width * image_height * picChannel];
+            for (int i = 0; i < image_height; i++) {
+                for (int j = 0; j < (picChannel * image_width); j += picChannel) {
+                    imageData[pos++] = row_pointers[i][j];   // red
+                    imageData[pos++] = row_pointers[i][j + 1]; // green
+                    imageData[pos++] = row_pointers[i][j + 2]; // blue
+                    imageData[pos++] = row_pointers[i][j + 3]; // alpha
                 }
-                break;
+            }
         }
         png_destroy_read_struct(&png_ptr, &info_ptr, 0);
         fclose(file);
@@ -94,10 +89,10 @@ int PictureDrawer::initSurface(JNIEnv *jniEnv, jobject surface) {
     }
     mProgram = esLoadProgram(verticalShader, fragmentShader);
     GLfloat verticals[] = {
-            -1.0f, -1.0f, 0.0f,     1.0f, 1.0f, 0.0f, 1.0f,    0.0f, 0.0f,
-            1.0f, -1.0f, 1.0f,      1.0f, 1.0f, 0.0f, 1.0f,    1.0f, 0.0f,
-            -1.0f, 1.0f, 0.0f,      0.0f, 1.0f, 1.0f, 1.0f,    0.0f, 1.0f,
-            1.0f, 1.0f, 0.0f,       0.0f, 1.0f, 1.0f, 1.0f,    1.0f, 1.0f
+            -1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+            1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+            -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+            1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f
     };
     GLushort indics[] = {0, 1, 2, 2, 1, 3};
     glGenBuffers(2, mVBO);
@@ -140,7 +135,6 @@ int PictureDrawer::initSurface(JNIEnv *jniEnv, jobject surface) {
 }
 
 
-
 int PictureDrawer::draw() {
     glViewport(0, 0, getWidth(), getHeight());
     glUseProgram(mProgram);
@@ -151,5 +145,13 @@ int PictureDrawer::draw() {
     glDrawElements(GL_TRIANGLE_STRIP, 6, GL_UNSIGNED_SHORT, (const void *) 0);
     glBindVertexArray(0);
     eglSwapBuffers(eglDisplay, eglSurface);
+    return GL_TRUE;
+}
+
+int PictureDrawer::destroyView() {
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDeleteProgram(mProgram);
+    glDeleteBuffers(2, mVBO);
+    glDeleteVertexArrays(1, &mVAO);
     return GL_TRUE;
 }
