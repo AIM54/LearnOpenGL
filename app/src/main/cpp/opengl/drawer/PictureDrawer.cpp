@@ -61,16 +61,14 @@ PictureDrawer::PictureDrawer(AAssetManager *manager,
               color_type,
               bitDepth, picChannel);
         png_bytep *row_pointers = png_get_rows(png_ptr, info_ptr);
-        if (color_type == PNG_COLOR_TYPE_RGBA) {
-            int pos = 0;
-            imageData = new uint8_t[image_width * image_height * picChannel];
-            for (int i = 0; i < image_height; i++) {
-                for (int j = 0; j < (picChannel * image_width); j += picChannel) {
-                    imageData[pos++] = row_pointers[i][j];   // red
-                    imageData[pos++] = row_pointers[i][j + 1]; // green
-                    imageData[pos++] = row_pointers[i][j + 2]; // blue
-                    imageData[pos++] = row_pointers[i][j + 3]; // alpha
-                }
+        int pos = 0;
+        imageData = new uint8_t[image_width * image_height * picChannel];
+        for (int i = 0; i < image_height; i++) {
+            for (int j = 0; j < (picChannel * image_width); j += picChannel) {
+                imageData[pos++] = row_pointers[i][j];   // red
+                imageData[pos++] = row_pointers[i][j + 1]; // green
+                imageData[pos++] = row_pointers[i][j + 2]; // blue
+                imageData[pos++] = row_pointers[i][j + 3]; // alpha
             }
         }
         png_destroy_read_struct(&png_ptr, &info_ptr, 0);
@@ -88,7 +86,10 @@ int PictureDrawer::initSurface(JNIEnv *jniEnv, jobject surface) {
         return GL_FALSE;
     }
     mProgram = esLoadProgram(verticalShader, fragmentShader);
+    delete verticalShader;
+    delete fragmentShader;
     GLfloat verticals[] = {
+            // 顶点                  颜色                    纹理
             -1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
             1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
             -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
