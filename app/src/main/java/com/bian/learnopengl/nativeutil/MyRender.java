@@ -38,6 +38,15 @@ public class MyRender {
     public native void init(AssetManager assetManager, String imagePath);
 
 
+
+
+    public native void drawOffScreen(AssetManager assetManager);
+
+    public void onImageDataCallBack(byte[] imageData) {
+
+    }
+
+
     public native int initSurface(Surface surface);
 
     public native int onSizeChanged(int width, int height);

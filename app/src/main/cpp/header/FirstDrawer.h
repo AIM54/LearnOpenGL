@@ -14,8 +14,6 @@ private:
     char *verticalShader;
     char *fragmentShader;
 public:
-
-
     FirstDrawer(AAssetManager *manager);
 
     int initSurface(JNIEnv *jniEnv, jobject surface) override;

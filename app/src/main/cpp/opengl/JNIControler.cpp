@@ -4,11 +4,13 @@
 #include <jni.h>
 #include <android/log.h>
 #include <ijksdl_log.h>
-#include "JNIControler.h"
 #include <android/asset_manager_jni.h>
 #include <android/asset_manager.h>
 #include "gl3stub.h"
 #include "RenderFactory.h"
+#include "JNIControler.h"
+#include "BaseOfflineRender.h"
+#include "FirstOffline.h"
 
 extern "C" {
 #include "libavformat/avformat.h"
@@ -18,19 +20,30 @@ extern "C" {
 
 #define MY_OPENGL_RENDER  "com/bian/learnopengl/nativeutil/MyRender"
 
+
 #define NELE(x) sizeof(x)/sizeof(x[0])
 
 BaseRender *mCurrentRender;
-
 static JNINativeMethod renderMethods[] = {
         {"init",          "(Landroid/content/res/AssetManager;Ljava/lang/String;)V", (void *) init},
         {"initSurface",   "(Landroid/view/Surface;)I",                               (void *) initSurface},
         {"onSizeChanged", "(II)I",                                                   (void *) onSizeChanged},
         {"draw",          "()I",                                                     (void *) draw},
+        {"drawOffScreen", "(Landroid/content/res/AssetManager;)V",                   (void *) drawOffScreen},
         {"pause",         "()I",                                                     (void *) pause},
         {"resume",        "()I",                                                     (void *) resume},
         {"destroyView",   "()I",                                                     (void *) destroyView}
 };
+
+
+void drawOffScreen(JNIEnv *env,
+                   jobject thiz, jobject assert) {
+    AAssetManager *manager = AAssetManager_fromJava(env, assert);
+    BaseOfflineRender *baseOffScreenDrawer = new FirstOffline(manager);
+    baseOffScreenDrawer->draw();
+    baseOffScreenDrawer->onDestroy();
+}
+
 
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     JNIEnv *jniEnv = nullptr;
@@ -148,5 +161,7 @@ jint destroyView(JNIEnv
     }
     return 1;
 }
+
+
 
 

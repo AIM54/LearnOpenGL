@@ -3,9 +3,10 @@
 //
 
 #include <ijksdl_log.h>
-#include "BaseOffScreenDrawer.h"
+#include "BaseOfflineRender.h"
 
-BaseOffScreenDrawer::BaseOffScreenDrawer(AAssetManager *manager) {
+BaseOfflineRender::BaseOfflineRender(AAssetManager *manager) {
+    eglContext = EGL_NO_CONTEXT;
     pbuDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     EGLint majarVersion;
     EGLint minorVersion;
@@ -31,9 +32,11 @@ BaseOffScreenDrawer::BaseOffScreenDrawer(AAssetManager *manager) {
         eglTerminate(pbuDisplay);
         return;
     }
+    width = 720;
+    height = 1080;
     EGLint screenList[] = {
-            EGL_WIDTH, 720,
-            EGL_HEIGHT, 1080,
+            EGL_WIDTH, width,
+            EGL_HEIGHT, height,
             EGL_LARGEST_PBUFFER, true,
             EGL_NONE
     };
@@ -74,17 +77,16 @@ BaseOffScreenDrawer::BaseOffScreenDrawer(AAssetManager *manager) {
         eglContext = EGL_NO_CONTEXT;
         return;
     }
-    initProgram();
 }
 
 
-void BaseOffScreenDrawer::draw() {
+void BaseOfflineRender::draw() {
     if (eglContext != EGL_NO_CONTEXT) {
         onDraw();
     }
 }
 
-void BaseOffScreenDrawer::destroyView() {
+void BaseOfflineRender::onDestroy() {
     if (pubSurface) {
         eglMakeCurrent(pbuDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
     }
@@ -101,6 +103,14 @@ void BaseOffScreenDrawer::destroyView() {
     eglContext = EGL_NO_CONTEXT;
     pubSurface = EGL_NO_SURFACE;
     pbuDisplay = EGL_NO_DISPLAY;
+}
+
+void BaseOfflineRender::setImageCallBack(void (*imageCallback)(Byte *)) {
+    this->PixCallBack = imageCallback;
+}
+
+BaseOfflineRender::~BaseOfflineRender() {
+
 }
 
 

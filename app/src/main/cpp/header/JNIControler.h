@@ -24,6 +24,9 @@ jint onSizeChanged(JNIEnv
                    jint height
 );
 
+void drawOffScreen(JNIEnv *env,
+                   jobject thiz,jobject assert);
+
 jint draw(JNIEnv
           *env,
           jobject thiz
