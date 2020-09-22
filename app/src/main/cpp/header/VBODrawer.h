@@ -27,6 +27,7 @@ public:
     int draw() override;
 
     int destroyView() override;
+    virtual ~VBODrawer();
 };
 
 

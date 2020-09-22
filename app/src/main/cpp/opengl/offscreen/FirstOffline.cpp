@@ -8,6 +8,8 @@ extern "C" {
 #include "AssetReader.h"
 }
 
+#include "ijksdl_log.h"
+
 FirstOffline::FirstOffline(AAssetManager *manager) : BaseOfflineRender(manager) {
     if (eglContext == EGL_NO_CONTEXT) {
         return;
@@ -38,6 +40,7 @@ void FirstOffline::onDraw() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vVertexts);
     glEnableVertexAttribArray(0);
     glDrawArrays(GL_TRIANGLES, 0, 3);
+    ALOGI("%s,%s", __FUNCTION__, "onDraw()");
 }
 
 FirstOffline::~FirstOffline() {

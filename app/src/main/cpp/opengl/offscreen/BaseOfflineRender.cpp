@@ -25,10 +25,10 @@ BaseOfflineRender::BaseOfflineRender(AAssetManager *manager) {
             EGL_DEPTH_SIZE, 16,
             EGL_NONE
     };
-    const EGLint MAX_CONFIG = 10;
-    EGLConfig configs[MAX_CONFIG];
+    const EGLint MAX_CONFIG = 1;
+    EGLConfig config;
     EGLint numConfigs;
-    if (!eglChooseConfig(pbuDisplay, attribList, configs, MAX_CONFIG, &numConfigs)) {
+    if (!eglChooseConfig(pbuDisplay, attribList, &config, MAX_CONFIG, &numConfigs)) {
         eglTerminate(pbuDisplay);
         return;
     }
@@ -40,7 +40,7 @@ BaseOfflineRender::BaseOfflineRender(AAssetManager *manager) {
             EGL_LARGEST_PBUFFER, true,
             EGL_NONE
     };
-    pubSurface = eglCreatePbufferSurface(pbuDisplay, configs[0], screenList);
+    pubSurface = eglCreatePbufferSurface(pbuDisplay, config, screenList);
     if (pubSurface == EGL_NO_SURFACE) {
         switch (glGetError()) {
             case EGL_BAD_ALLOC:
@@ -64,7 +64,7 @@ BaseOfflineRender::BaseOfflineRender(AAssetManager *manager) {
             EGL_CONTEXT_CLIENT_VERSION, 3,
             EGL_NONE
     };
-    eglContext = eglCreateContext(pubSurface, configs[0], EGL_NO_CONTEXT, contextAttribs);
+    eglContext = eglCreateContext(pubSurface, config, EGL_NO_CONTEXT, contextAttribs);
     if (eglContext == EGL_NO_CONTEXT) {
         eglDestroySurface(pbuDisplay, pubSurface);
         eglTerminate(pbuDisplay);

@@ -18,10 +18,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/test_glsurface" />
+
     <Button
         android:id="@+id/bt_image_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/image_list" />
+
+    <Button
+        android:id="@+id/bt_offline"
+        android:text="@string/offline_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

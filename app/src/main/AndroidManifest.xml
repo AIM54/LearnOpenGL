@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ImageListActivity"></activity>
+        <activity android:name=".activity.OffLineActivity"></activity>
+        <activity android:name=".activity.ImageListActivity" />
         <activity android:name=".OpenglActivity" />
         <activity android:name=".VideoListActivity" />
         <activity android:name=".activity.GLSurfaceActivity" />

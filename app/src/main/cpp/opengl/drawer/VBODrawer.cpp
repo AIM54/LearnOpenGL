@@ -32,10 +32,6 @@ int VBODrawer::initSurface(JNIEnv *jniEnv, jobject surface) {
     if (!gl3stubInit()) {
         return GL_FALSE;
     }
-    free(verticalShader);
-    free(fragmentShader);
-    verticalShader = nullptr;
-    fragmentShader = nullptr;
     GLfloat verticals[4 * (VERTEX_POS_SIZE + COLOR_POS_SIZE)] = {
             -0.8f, 0.8f, 0.0f,        // v0
             1.0f, 1.0f, 0.0f, 1.0f,  // c0
@@ -87,5 +83,17 @@ int VBODrawer::destroyView() {
     glDeleteBuffers(2, mVBO);
     glDeleteVertexArrays(1, &mVAO);
     return GL_TRUE;
+}
+
+VBODrawer::~VBODrawer() {
+    if (verticalShader) {
+        free(verticalShader);
+        verticalShader = nullptr;
+    }
+    if (fragmentShader) {
+        free(fragmentShader);
+        fragmentShader = nullptr;
+    }
+
 }
 

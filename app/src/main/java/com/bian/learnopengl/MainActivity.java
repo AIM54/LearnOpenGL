@@ -13,6 +13,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.bian.learnopengl.activity.GLSurfaceActivity;
 import com.bian.learnopengl.activity.ImageListActivity;
+import com.bian.learnopengl.activity.OffLineActivity;
 
 import java.nio.IntBuffer;
 
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button testOpenglButton;
     private Button testGLButton;
     private Button imageListButton;
+    private Button offlineDrawer;
     private IntBuffer buffers;
 
     @Override
@@ -36,9 +38,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         testOpenglButton = findViewById(R.id.bt_test_opengl);
         testGLButton = findViewById(R.id.bt_test_glsurface);
         imageListButton = findViewById(R.id.bt_image_list);
+        offlineDrawer = findViewById(R.id.bt_offline);
         testOpenglButton.setOnClickListener(this);
         testGLButton.setOnClickListener(this);
         imageListButton.setOnClickListener(this);
+        offlineDrawer.setOnClickListener(this);
     }
 
     @Override
@@ -58,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.bt_image_list:
                 it.setClass(this, ImageListActivity.class);
+                break;
+            case R.id.bt_offline:
+                it.setClass(this, OffLineActivity.class);
                 break;
         }
         startActivity(it);
