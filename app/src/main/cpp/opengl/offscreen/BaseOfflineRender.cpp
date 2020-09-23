@@ -22,7 +22,8 @@ BaseOfflineRender::BaseOfflineRender(AAssetManager *manager) {
             EGL_BLUE_SIZE, 8,
             EGL_GREEN_SIZE, 8,
             EGL_ALPHA_SIZE, 8,
-            EGL_DEPTH_SIZE, 16,
+            EGL_DEPTH_SIZE, 16,// if you need the depth buffer
+            EGL_STENCIL_SIZE,8,
             EGL_NONE
     };
     const EGLint MAX_CONFIG = 1;
@@ -35,12 +36,13 @@ BaseOfflineRender::BaseOfflineRender(AAssetManager *manager) {
     width = 720;
     height = 1080;
     EGLint screenList[] = {
-            EGL_WIDTH, width,
-            EGL_HEIGHT, height,
-            EGL_LARGEST_PBUFFER, true,
+            EGL_WIDTH, 1,
+            EGL_HEIGHT, 1,
             EGL_NONE
     };
+    ALOGI("before eglCreatePbufferSurface");
     pubSurface = eglCreatePbufferSurface(pbuDisplay, config, screenList);
+
     if (pubSurface == EGL_NO_SURFACE) {
         switch (glGetError()) {
             case EGL_BAD_ALLOC:
@@ -55,21 +57,27 @@ BaseOfflineRender::BaseOfflineRender(AAssetManager *manager) {
             case EGL_BAD_MATCH:
                 ALOGE("EGL_BAD_MATCH");
                 break;
+            case EGL_BAD_DISPLAY:
+                ALOGE("EGL_BAD_DISPLAY");
+                break;
         }
         eglTerminate(pbuDisplay);
         return;
     }
-
+    ALOGI("after eglCreatePbufferSurface");
     const EGLint contextAttribs[] = {
             EGL_CONTEXT_CLIENT_VERSION, 3,
             EGL_NONE
     };
-    eglContext = eglCreateContext(pubSurface, config, EGL_NO_CONTEXT, contextAttribs);
+
+    eglContext = eglCreateContext(pbuDisplay, config, EGL_NO_CONTEXT, contextAttribs);
+
     if (eglContext == EGL_NO_CONTEXT) {
         eglDestroySurface(pbuDisplay, pubSurface);
         eglTerminate(pbuDisplay);
         return;
     }
+    ALOGI("after eglCreateContext");
     if (!eglMakeCurrent(pbuDisplay, pubSurface, pubSurface, eglContext)) {
         eglDestroyContext(pbuDisplay, eglContext);
         eglDestroySurface(pbuDisplay, pubSurface);

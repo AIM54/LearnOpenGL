@@ -16,7 +16,7 @@ public class OffLineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_off_line);
-        myRender = new MyRender(12, getAssets(), getIntent().getStringExtra(ConstantUtil.ARG_IMG));
+        myRender = new MyRender();
         myRender.drawOffScreen(getAssets());
     }
 }

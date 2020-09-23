@@ -40,7 +40,12 @@ void FirstOffline::onDraw() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vVertexts);
     glEnableVertexAttribArray(0);
     glDrawArrays(GL_TRIANGLES, 0, 3);
-    ALOGI("%s,%s", __FUNCTION__, "onDraw()");
+    Byte *imageData = new Byte[width * height * 4 * sizeof(Byte)];
+    glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+    if (PixCallBack) {
+        PixCallBack(imageData);
+    }
+    delete[]imageData;
 }
 
 FirstOffline::~FirstOffline() {

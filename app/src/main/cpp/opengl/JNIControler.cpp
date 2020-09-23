@@ -36,12 +36,18 @@ static JNINativeMethod renderMethods[] = {
 };
 
 
+void onImageDataCallback(Byte *imageData) {
+
+}
+
 void drawOffScreen(JNIEnv *env,
                    jobject thiz, jobject assert) {
     AAssetManager *manager = AAssetManager_fromJava(env, assert);
     BaseOfflineRender *baseOffScreenDrawer = new FirstOffline(manager);
+    baseOffScreenDrawer->setImageCallBack(onImageDataCallback);
     baseOffScreenDrawer->draw();
     baseOffScreenDrawer->onDestroy();
+    delete baseOffScreenDrawer;
 }
 
 

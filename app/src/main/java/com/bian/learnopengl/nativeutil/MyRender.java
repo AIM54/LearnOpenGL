@@ -14,6 +14,9 @@ public class MyRender {
         this(12, assetManager, null);
     }
 
+    public MyRender() {
+    }
+
     public MyRender(int type, AssetManager manger, String imagePath) {
         this.renderType = type;
         this.assetManager = manger;
