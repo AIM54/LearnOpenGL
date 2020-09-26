@@ -1,0 +1,7 @@
+
+列出函数库当中的所有函数
+D:\Android\ndk\21.2.6472646\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin\arm-linux-androideabi-readelf -a
+
+反编译行为
+D:\Android\ndk\21.2.6472646\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin\arm-linux-androideabi-objdump -dx libgltest.so stacktrace.txt
+

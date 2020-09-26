@@ -6,6 +6,7 @@
 #include <ijksdl_log.h>
 #include <android/asset_manager_jni.h>
 #include <android/asset_manager.h>
+#include <MemoryTrace.hpp>
 #include "gl3stub.h"
 #include "RenderFactory.h"
 #include "JNIControler.h"
@@ -17,6 +18,7 @@ extern "C" {
 }
 
 #include "version.h"
+#include "leaktracer.h"
 
 #define MY_OPENGL_RENDER  "com/bian/learnopengl/nativeutil/MyRender"
 
@@ -63,6 +65,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
         return JNI_ERR;
     }
     ALOGE("renderMethods.length is :%d", NELE(renderMethods));
+    leaktracer::MemoryTrace::GetInstance().startMonitoringAllThreads();
     jniEnv->RegisterNatives(renderClass, renderMethods, NELE(renderMethods));
     jniEnv->DeleteLocalRef(renderClass);
     return JNI_VERSION_1_6;
@@ -83,6 +86,7 @@ JNIEXPORT void JNI_OnUnload(JavaVM *vm, void *reserved) {
         ALOGE("failed to find class:%s", MY_OPENGL_RENDER);
         return;
     }
+    leaktracer::MemoryTrace::GetInstance().writeLeaksToFile("/mnt/sdcard/mem_leak.log");
     jniEnv->UnregisterNatives(renderClass);
 
 };
