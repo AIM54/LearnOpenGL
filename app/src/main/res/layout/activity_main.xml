@@ -27,8 +27,14 @@
 
     <Button
         android:id="@+id/bt_offline"
-        android:text="@string/offline_msg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/offline_msg" />
+
+    <Button
+        android:id="@+id/bt_load_model"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/load_model" />
 
 </LinearLayout>

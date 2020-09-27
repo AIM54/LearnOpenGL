@@ -4,4 +4,5 @@
     <string name="test_glsurface">测试GLSurfaceView</string>
     <string name="image_list">图片列表</string>
     <string name="offline_msg">离线绘制</string>
+    <string name="load_model">加载模型</string>
 </resources>

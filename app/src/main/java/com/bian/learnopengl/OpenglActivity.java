@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import android.text.TextUtils;
 import android.view.Surface;
 
 import com.bian.learnopengl.nativeutil.MyRender;
@@ -12,13 +13,18 @@ import com.bian.learnopengl.util.ConstantUtil;
 public class OpenglActivity extends AppCompatActivity implements MySurfaceView.Render {
     private MySurfaceView surfaceView;
     private MyRender myRender;
+    private String modelFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opengl);
         initView();
-        myRender = new MyRender(12,getAssets(),getIntent().getStringExtra(ConstantUtil.ARG_IMG));
+        modelFilePath = getIntent().getStringExtra(ConstantUtil.ARG_FILE_PATH);
+        if (!TextUtils.isEmpty(modelFilePath)) {
+
+        }
+        myRender = new MyRender(12, getAssets(), getIntent().getStringExtra(ConstantUtil.ARG_IMG));
     }
 
     private void initView() {

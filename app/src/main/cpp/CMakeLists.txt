@@ -21,6 +21,7 @@ endif (${ANDROID_PLATFORM_LEVEL} LESS 12)
 
 include_directories(
         header
+        header/glm
         header/assimp
         header/ffmpeg
         header/png

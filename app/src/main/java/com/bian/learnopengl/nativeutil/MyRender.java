@@ -17,10 +17,15 @@ public class MyRender {
     public MyRender() {
     }
 
+    public MyRender(AssetManager assetManager, String modelPath) {
+        this.assetManager=assetManager;
+
+    }
+
+
     public MyRender(int type, AssetManager manger, String imagePath) {
         this.renderType = type;
         this.assetManager = manger;
-        LogUtils.logMessageI(imagePath);
         init(assetManager, imagePath);
     }
 
@@ -39,8 +44,6 @@ public class MyRender {
     }
 
     public native void init(AssetManager assetManager, String imagePath);
-
-
 
 
     public native void drawOffScreen(AssetManager assetManager);
