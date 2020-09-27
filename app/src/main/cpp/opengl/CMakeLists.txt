@@ -19,6 +19,8 @@ add_library( # Sets the name of the library.
         # Sets the library as a shared library.
         SHARED
         # Provides a relative path to your source file(s).
+        ${LEAK_TRACER_CPP_SOURCE}
+        ${LEAK_TRACER_C_SOURCE}
         ${OFFSCREEN}
         ${FILES_C}
         ${FILE_RENDER}
