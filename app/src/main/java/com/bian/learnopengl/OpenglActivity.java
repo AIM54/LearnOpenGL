@@ -10,6 +10,8 @@ import android.view.Surface;
 import com.bian.learnopengl.nativeutil.MyRender;
 import com.bian.learnopengl.util.ConstantUtil;
 
+import java.io.File;
+
 public class OpenglActivity extends AppCompatActivity implements MySurfaceView.Render {
     private MySurfaceView surfaceView;
     private MyRender myRender;
@@ -22,7 +24,8 @@ public class OpenglActivity extends AppCompatActivity implements MySurfaceView.R
         initView();
         modelFilePath = getIntent().getStringExtra(ConstantUtil.ARG_FILE_PATH);
         if (!TextUtils.isEmpty(modelFilePath)) {
-
+            myRender = new MyRender(getAssets(), modelFilePath + File.separator + "nanosuit" + File.separator + "nanosuit.obj");
+            return;
         }
         myRender = new MyRender(12, getAssets(), getIntent().getStringExtra(ConstantUtil.ARG_IMG));
     }

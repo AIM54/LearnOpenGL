@@ -7,7 +7,9 @@
 
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
+#include "assimp/version.h"
 #include "assimp/postprocess.h"
+
 #include "ijksdl_log.h"
 
 class Model {
@@ -17,7 +19,7 @@ private:
     void processMesh();
 
 public:
-    void loadModel(char *modelPath);
+    void loadModel( const char *modelPath);
 };
 
 #endif //LEARNOPENGL_MODEL_H

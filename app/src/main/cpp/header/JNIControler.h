@@ -7,6 +7,11 @@
 
 #include <jni.h>
 
+void loadModel(JNIEnv
+          *env,
+          jobject thiz, jobject
+          assert, jstring modelPath);
+
 void init(JNIEnv
           *env,
           jobject thiz, jobject
@@ -25,7 +30,7 @@ jint onSizeChanged(JNIEnv
 );
 
 void drawOffScreen(JNIEnv *env,
-                   jobject thiz,jobject assert);
+                   jobject thiz, jobject assert);
 
 jint draw(JNIEnv
           *env,

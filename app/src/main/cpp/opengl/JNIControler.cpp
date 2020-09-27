@@ -22,12 +22,14 @@ extern "C" {
 
 #define MY_OPENGL_RENDER  "com/bian/learnopengl/nativeutil/MyRender"
 
+#include "ModerRender.h"
 
 #define NELE(x) sizeof(x)/sizeof(x[0])
 
 BaseRender *mCurrentRender;
 static JNINativeMethod renderMethods[] = {
         {"init",          "(Landroid/content/res/AssetManager;Ljava/lang/String;)V", (void *) init},
+        {"load3DModel",   "(Landroid/content/res/AssetManager;Ljava/lang/String;)V", (void *) loadModel},
         {"initSurface",   "(Landroid/view/Surface;)I",                               (void *) initSurface},
         {"onSizeChanged", "(II)I",                                                   (void *) onSizeChanged},
         {"draw",          "()I",                                                     (void *) draw},
@@ -37,6 +39,8 @@ static JNINativeMethod renderMethods[] = {
         {"destroyView",   "()I",                                                     (void *) destroyView}
 };
 
+
+void releaseRender();
 
 void onImageDataCallback(Byte *imageData) {
 
@@ -98,13 +102,7 @@ void init(JNIEnv
     AAssetManager *manager = AAssetManager_fromJava(env, assert);
     jclass renderClass = env->FindClass(MY_OPENGL_RENDER);;
     jint renderType = env->GetIntField(thiz, env->GetFieldID(renderClass, "renderType", "I"));
-    ALOGI("the renderType is :%d", renderType);
-    if (mCurrentRender) {
-        delete mCurrentRender;
-        mCurrentRender = nullptr;
-    }
-    ALOGI("avformat_license:%s", avformat_license());
-    ALOGI("aiGetLegalString:%s", aiGetLegalString());
+    releaseRender();
     if (imagePath) {
         const char *imageUrl = env->GetStringUTFChars(imagePath, 0);
         mCurrentRender = createRender(renderType, manager, imageUrl);
@@ -112,6 +110,26 @@ void init(JNIEnv
     } else {
         mCurrentRender = createRender(renderType, manager, nullptr);
     }
+}
+
+void releaseRender() {
+    if (mCurrentRender) {
+        delete mCurrentRender;
+        mCurrentRender = nullptr;
+    }
+}
+
+void loadModel(JNIEnv
+               *env,
+               jobject thiz, jobject
+               assert, jstring modelPath) {
+    releaseRender();
+    const char *modelUrl = env->GetStringUTFChars(modelPath, 0);
+    ModerRender *moderRender = new ModerRender(AAssetManager_fromJava(env, assert));
+    moderRender->loadModel(modelUrl);
+    mCurrentRender = moderRender;
+    env->ReleaseStringUTFChars(modelPath, modelUrl);
+
 }
 
 jint initSurface(JNIEnv

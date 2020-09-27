@@ -3,7 +3,8 @@
 //
 #include "Model.h"
 
-void Model::loadModel(char *modelPath) {
+void Model::loadModel(const char *modelPath) {
+    ALOGI("aiGetLegalString:%s", aiGetLegalString());
     Assimp::Importer importer;
     const aiScene *mRootScene = importer.ReadFile(modelPath,
                                                   aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -15,8 +16,7 @@ void Model::loadModel(char *modelPath) {
 }
 
 void Model::processNode(aiNode *node, aiScene *scene) {
-
-
+    ALOGI("processNode");
 }
 
 

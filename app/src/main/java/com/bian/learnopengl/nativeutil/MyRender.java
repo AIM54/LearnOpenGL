@@ -18,9 +18,12 @@ public class MyRender {
     }
 
     public MyRender(AssetManager assetManager, String modelPath) {
-        this.assetManager=assetManager;
-
+        this.assetManager = assetManager;
+        LogUtils.logMessageI("ModelPath is :" + modelPath);
+        load3DModel(assetManager, modelPath);
     }
+
+    private native void load3DModel(AssetManager assetManager, String modelPath);
 
 
     public MyRender(int type, AssetManager manger, String imagePath) {

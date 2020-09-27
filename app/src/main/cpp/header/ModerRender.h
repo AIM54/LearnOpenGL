@@ -12,6 +12,9 @@ class ModerRender : public NewBaseRender {
 public:
     ModerRender(AAssetManager *manager);
 
+    void loadModel( const char *modelPath);
+
+
 protected:
     void onDraw(float deltaTime) override;
 
