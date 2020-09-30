@@ -14,7 +14,6 @@
 #include <GLES3/gl3ext.h>
 #include <GLES3/gl3platform.h>
 #include <GLES3/gl32.h>
-#include "gl3stub.h"
 
 class EGLContextHelper {
 public:

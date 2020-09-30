@@ -5,9 +5,7 @@
 #include "VideoRecorderPreviewer.h"
 
 void VideoRecorderPreviewer::init(ANativeWindow *nativeWindow) {
-    if (!gl3stubInit()) {
-        return;
-    }
+
     glGenTextures(1, mTexture);
 
 }

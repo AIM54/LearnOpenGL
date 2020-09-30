@@ -2,7 +2,10 @@
 // Created by tom1 on 2020/9/29.
 //
 
-#include <esUtil.h>
+extern "C"{
+#include "esUtil.h"
+}
+
 #include "ijksdl_log.h"
 #include "EGLContextHelper.h"
 
@@ -23,7 +26,7 @@ void EGLContextHelper::createContext(ANativeWindow *aNativeWindow) {
                     EGL_ALPHA_SIZE, 8,
                     EGL_DEPTH_SIZE, 24,
                     EGL_STENCIL_SIZE, 8,
-                    EGL_RENDERABLE_TYPE, GetContextRenderableType(mDisPlay),
+                    EGL_RENDERABLE_TYPE,EGL_OPENGL_ES3_BIT_KHR,
                     EGL_NONE
             };
     const EGLint MAX_CONFIG = 1;
