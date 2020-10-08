@@ -21,6 +21,7 @@ extern "C" {
 #include "leaktracer.h"
 
 #define MY_OPENGL_RENDER  "com/bian/learnopengl/nativeutil/MyRender"
+#define VIDEO_PLAYER      "com/bian/learnopengl/nativeutil/VideoPlayer"
 
 #include "ModerRender.h"
 
@@ -37,6 +38,11 @@ static JNINativeMethod renderMethods[] = {
         {"pause",         "()I",                                                     (void *) pause},
         {"resume",        "()I",                                                     (void *) resume},
         {"destroyView",   "()I",                                                     (void *) destroyView}
+};
+
+static JNINativeMethod playerMethods[]={
+        {"setSurface","(Landroid/view/Surface;)V",},
+
 };
 
 

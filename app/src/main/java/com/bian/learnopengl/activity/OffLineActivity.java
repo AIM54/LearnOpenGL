@@ -8,6 +8,10 @@ import com.bian.learnopengl.R;
 import com.bian.learnopengl.nativeutil.MyRender;
 import com.bian.learnopengl.util.ConstantUtil;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 public class OffLineActivity extends AppCompatActivity {
 
     private MyRender myRender;
@@ -18,5 +22,6 @@ public class OffLineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_off_line);
         myRender = new MyRender();
         myRender.drawOffScreen(getAssets());
+
     }
 }

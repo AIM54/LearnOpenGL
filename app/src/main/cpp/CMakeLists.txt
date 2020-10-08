@@ -76,8 +76,16 @@ set_target_properties(swscale PROPERTIES IMPORTED_LOCATION ${jniPath}/${ANDROID_
 
 
 #openCv的一些库文件导入
+add_library(ippiw STATIC IMPORTED)
+set_property(TARGET ippiw APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
+set_target_properties(ippiw PROPERTIES
+        IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "C"
+        IMPORTED_LOCATION_RELEASE "${opencv3rdPath}/${ANDROID_ABI}/libippiw.a"
+        )
+
 # Create imported target libcpufeatures
 add_library(libcpufeatures STATIC IMPORTED)
+set_property(TARGET libcpufeatures APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(libcpufeatures PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "C"
         IMPORTED_LOCATION_RELEASE "${opencv3rdPath}/${ANDROID_ABI}/libcpufeatures.a"
@@ -85,7 +93,7 @@ set_target_properties(libcpufeatures PROPERTIES
 
 # Create imported target libjpeg-turbo
 add_library(libjpeg-turbo STATIC IMPORTED)
-
+set_property(TARGET libjpeg-turbo APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(libjpeg-turbo PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "C"
         IMPORTED_LOCATION_RELEASE "${opencv3rdPath}/${ANDROID_ABI}/liblibjpeg-turbo.a"
@@ -93,6 +101,7 @@ set_target_properties(libjpeg-turbo PROPERTIES
 
 # Create imported target libtiff
 add_library(libtiff STATIC IMPORTED)
+set_property(TARGET libtiff APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(libtiff PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "C;CXX"
         IMPORTED_LOCATION_RELEASE "${opencv3rdPath}/${ANDROID_ABI}/liblibtiff.a"
@@ -103,6 +112,7 @@ set_target_properties(libtiff PROPERTIES
 
 # Create imported target libwebp
 add_library(libwebp STATIC IMPORTED)
+set_property(TARGET libwebp APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(libwebp PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "C"
         IMPORTED_LOCATION_RELEASE "${opencv3rdPath}/${ANDROID_ABI}/liblibwebp.a"
@@ -114,6 +124,7 @@ set_target_properties(libwebp PROPERTIES
 
 # Create imported target libjasper
 add_library(libjasper STATIC IMPORTED)
+set_property(TARGET libjasper APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(libjasper PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "C"
         IMPORTED_LOCATION_RELEASE "${opencv3rdPath}/${ANDROID_ABI}/liblibjasper.a"
@@ -156,7 +167,7 @@ set_target_properties(tbb PROPERTIES
 
 # Create imported target libprotobuf
 add_library(libprotobuf STATIC IMPORTED)
-
+set_property(TARGET libprotobuf APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(libprotobuf PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencv3rdPath}/${ANDROID_ABI}/liblibprotobuf.a"
@@ -164,6 +175,7 @@ set_target_properties(libprotobuf PROPERTIES
 
 # Create imported target quirc
 add_library(quirc STATIC IMPORTED)
+set_property(TARGET quirc APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(quirc PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "C"
         IMPORTED_LOCATION_RELEASE "${opencv3rdPath}/${ANDROID_ABI}/libquirc.a"
@@ -172,6 +184,7 @@ set_target_properties(quirc PROPERTIES
 
 # Create imported target tegra_hal
 add_library(tegra_hal STATIC IMPORTED)
+set_property(TARGET tegra_hal APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(tegra_hal PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencv3rdPath}/${ANDROID_ABI}/libtegra_hal.a"
@@ -180,6 +193,7 @@ set_target_properties(tegra_hal PROPERTIES
 
 # Create imported target ittnotify
 add_library(ittnotify STATIC IMPORTED)
+set_property(TARGET ittnotify APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(ittnotify PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "C"
         IMPORTED_LOCATION_RELEASE "${opencv3rdPath}/${ANDROID_ABI}/libittnotify.a"
@@ -191,6 +205,7 @@ set_target_properties(ittnotify PROPERTIES
 
 # Create imported target ade
 add_library(ade STATIC IMPORTED)
+set_property(TARGET ade APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(ade PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencv3rdPath}/${ANDROID_ABI}/libade.a"
@@ -204,20 +219,32 @@ set_target_properties(ocv.3rdparty.android_mediandk PROPERTIES
         INTERFACE_LINK_LIBRARIES "-landroid -llog -lmediandk"
         INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ""
         )
+add_library(ippicv STATIC IMPORTED)
+set_target_properties(ippicv PROPERTIES
+        IMPORTED_LINK_INTERFACE_LIBRARIES ""
+        IMPORTED_LOCATION "${opencv3rdPath}/${ANDROID_ABI}/libippicv.a"
+        )
 
 # Create imported target opencv_core
 add_library(opencv_core STATIC IMPORTED)
+set_property(TARGET opencv_core APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_core PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_core.a"
         )
-set_target_properties(opencv_core PROPERTIES
-        INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:dl>;\$<LINK_ONLY:m>;\$<LINK_ONLY:log>;\$<LINK_ONLY:tegra_hal>;\$<LINK_ONLY:tbb>;\$<LINK_ONLY:z>;\$<LINK_ONLY:libcpufeatures>;\$<LINK_ONLY:ittnotify>;\$<LINK_ONLY:tegra_hal>"
-        )
-
+if (${ANDROID_ABI} STREQUAL armeabi-v8a)
+    set_target_properties(opencv_core PROPERTIES
+            INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:dl>;\$<LINK_ONLY:m>;\$<LINK_ONLY:log>;\$<LINK_ONLY:tegra_hal>;\$<LINK_ONLY:tbb>;\$<LINK_ONLY:z>;\$<LINK_ONLY:libcpufeatures>;\$<LINK_ONLY:ittnotify>;\$<LINK_ONLY:tegra_hal>"
+            )
+else ()
+    set_target_properties(opencv_core PROPERTIES
+            INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:dl>;\$<LINK_ONLY:m>;\$<LINK_ONLY:log>;\$<LINK_ONLY:ippiw>;\$<LINK_ONLY:ippicv>;\$<LINK_ONLY:tbb>;\$<LINK_ONLY:z>;\$<LINK_ONLY:libcpufeatures>;\$<LINK_ONLY:ittnotify>"
+            )
+endif ()
 
 # Create imported target opencv_flann
 add_library(opencv_flann STATIC IMPORTED)
+set_property(TARGET opencv_flann APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_flann PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_flann.a"
@@ -228,6 +255,7 @@ set_target_properties(opencv_flann PROPERTIES
 
 # Create imported target opencv_imgproc
 add_library(opencv_imgproc STATIC IMPORTED)
+set_property(TARGET opencv_imgproc APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_imgproc PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_imgproc.a"
@@ -238,6 +266,7 @@ set_target_properties(opencv_imgproc PROPERTIES
 
 # Create imported target opencv_ml
 add_library(opencv_ml STATIC IMPORTED)
+set_property(TARGET opencv_ml APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_ml PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_ml.a"
@@ -248,6 +277,7 @@ set_target_properties(opencv_ml PROPERTIES
 
 # Create imported target opencv_photo
 add_library(opencv_photo STATIC IMPORTED)
+set_property(TARGET opencv_photo APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_photo PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_photo.a"
@@ -259,6 +289,7 @@ set_target_properties(opencv_photo PROPERTIES
 
 # Create imported target opencv_dnn
 add_library(opencv_dnn STATIC IMPORTED)
+set_property(TARGET opencv_dnn APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_dnn PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_dnn.a"
@@ -270,6 +301,7 @@ set_target_properties(opencv_dnn PROPERTIES
 
 # Create imported target opencv_features2d
 add_library(opencv_features2d STATIC IMPORTED)
+set_property(TARGET opencv_features2d APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_features2d PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_features2d.a"
@@ -280,6 +312,7 @@ set_target_properties(opencv_features2d PROPERTIES
 
 # Create imported target opencv_imgcodecs
 add_library(opencv_imgcodecs STATIC IMPORTED)
+set_property(TARGET opencv_imgcodecs APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_imgcodecs PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_imgcodecs.a"
@@ -290,6 +323,7 @@ set_target_properties(opencv_imgcodecs PROPERTIES
 
 # Create imported target opencv_videoio
 add_library(opencv_videoio STATIC IMPORTED)
+set_property(TARGET opencv_videoio APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_videoio PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_videoio.a"
@@ -300,6 +334,7 @@ set_target_properties(opencv_videoio PROPERTIES
 
 # Create imported target opencv_calib3d
 add_library(opencv_calib3d STATIC IMPORTED)
+set_property(TARGET opencv_calib3d APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_calib3d PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_calib3d.a"
@@ -310,6 +345,7 @@ set_target_properties(opencv_calib3d PROPERTIES
 
 # Create imported target opencv_highgui
 add_library(opencv_highgui STATIC IMPORTED)
+set_property(TARGET opencv_highgui APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_highgui PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_highgui.a"
@@ -321,6 +357,7 @@ set_target_properties(opencv_highgui PROPERTIES
 
 # Create imported target opencv_objdetect
 add_library(opencv_objdetect STATIC IMPORTED)
+set_property(TARGET opencv_objdetect APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_objdetect PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_objdetect.a"
@@ -331,6 +368,7 @@ set_target_properties(opencv_objdetect PROPERTIES
 
 # Create imported target opencv_stitching
 add_library(opencv_stitching STATIC IMPORTED)
+set_property(TARGET opencv_stitching APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_stitching PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_stitching.a"
@@ -341,6 +379,7 @@ set_target_properties(opencv_stitching PROPERTIES
 
 # Create imported target opencv_video
 add_library(opencv_video STATIC IMPORTED)
+set_property(TARGET opencv_video APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_video PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_video.a"
@@ -351,6 +390,7 @@ set_target_properties(opencv_video PROPERTIES
 
 # Create imported target opencv_gapi
 add_library(opencv_gapi STATIC IMPORTED)
+set_property(TARGET opencv_gapi APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_gapi PROPERTIES
         IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
         IMPORTED_LOCATION_RELEASE "${opencvStaticPath}/${ANDROID_ABI}/libopencv_gapi.a"
@@ -364,3 +404,4 @@ set_target_properties(opencv_gapi PROPERTIES
 add_subdirectory(${CMAKE_SOURCE_DIR}/opengl)
 add_subdirectory(${CMAKE_SOURCE_DIR}/glsurface)
 add_subdirectory(${CMAKE_SOURCE_DIR}/video)
+add_subdirectory(${CMAKE_SOURCE_DIR}/opencv)

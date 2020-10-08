@@ -8,6 +8,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.lang.ref.WeakReference;
 
 
@@ -15,6 +17,7 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
     private MyRenderThread renderThread;
     private Object mRenderManager = new Object();
     private Render mRender;
+    private RecyclerView recyclerView;
 
     private int threadCount;
 
