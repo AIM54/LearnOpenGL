@@ -18,6 +18,7 @@ public class GLSurfaceActivity extends AppCompatActivity implements GLSurfaceVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_opengl2);
         glSurfaceViewRender = new GLSurfaceViewRender();
         mainGlSurfaceView = findViewById(R.id.glsv_main);

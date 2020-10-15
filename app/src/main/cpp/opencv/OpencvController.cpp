@@ -3,3 +3,9 @@
 //
 
 #include "OpencvController.h"
+#include "opencv2/opencv.hpp"
+using namespace cv;
+
+void testBitMap() {
+ Mat* mat=new Mat();
+}

@@ -6,7 +6,7 @@
 cmake_minimum_required(VERSION 3.4.1)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/jniLibs/${ANDROID_ABI})
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -frtti -fexceptions -Wall")
 if (${ANDROID_PLATFORM_LEVEL} LESS 12)
     message(FATAL_ERROR "OpenGL 2 is not supported before API level 11 \
                       (currently using ${ANDROID_PLATFORM_LEVEL}).")
@@ -216,7 +216,7 @@ add_library(ocv.3rdparty.android_mediandk INTERFACE IMPORTED)
 set_target_properties(ocv.3rdparty.android_mediandk PROPERTIES
         INTERFACE_COMPILE_DEFINITIONS "HAVE_ANDROID_MEDIANDK"
         INTERFACE_INCLUDE_DIRECTORIES ""
-        INTERFACE_LINK_LIBRARIES "-landroid -llog"
+        INTERFACE_LINK_LIBRARIES "-landroid -llog -lmediandk"
         INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ""
         )
 add_library(ippicv STATIC IMPORTED)
