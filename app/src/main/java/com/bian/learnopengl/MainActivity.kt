@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setAdapter() {
-        val data = arrayOf("TestOpencvModule")
+        val data = arrayOf("TestOpencvModule", "opencvVideoFunction")
         val simpleAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, data)
         mBinder?.adapter = simpleAdapter
         mBinder?.lvMain?.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
@@ -37,9 +37,8 @@ class MainActivity : AppCompatActivity() {
                 return@OnItemClickListener;
             }
             when (position) {
-                0 -> {
-                    startActivity(Intent(this@MainActivity, ImageListActivity::class.java))
-                }
+                0 -> startActivity(Intent(this@MainActivity, ImageListActivity::class.java))
+                1 -> startActivity(Intent(this@MainActivity, VideoListActivity::class.java))
             }
         }
     }

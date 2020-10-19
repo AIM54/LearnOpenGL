@@ -5,6 +5,11 @@
 
     <data>
 
+        <import type="androidx.cursoradapter.widget.SimpleCursorAdapter" />
+
+        <variable
+            name="videoAdapter"
+            type="SimpleCursorAdapter" />
     </data>
 
     <FrameLayout
@@ -15,7 +20,8 @@
         <ListView
             android:id="@+id/lv_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:adapter="@{videoAdapter}" />
 
     </FrameLayout>
 </layout>
