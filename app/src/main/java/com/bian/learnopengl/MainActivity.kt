@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import com.bian.learnopengl.activity.ImageListActivity
+import com.bian.learnopengl.activity.VideoListActivity
 import com.bian.learnopengl.databinding.ActivityMainBinding
 import com.bian.learnopengl.util.CommonUtils
 import com.bian.learnopengl.util.ConstantUtil

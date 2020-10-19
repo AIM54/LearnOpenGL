@@ -22,8 +22,8 @@
         <activity android:name=".activity.VideoRecordActivity" />
         <activity android:name=".activity.OffLineActivity" />
         <activity android:name=".activity.ImageListActivity" />
+        <activity android:name=".activity.VideoListActivity" />
         <activity android:name=".OpenglActivity" />
-        <activity android:name=".VideoListActivity" />
         <activity android:name=".activity.GLSurfaceActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

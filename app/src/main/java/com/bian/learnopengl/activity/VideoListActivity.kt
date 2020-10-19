@@ -1,6 +1,5 @@
 package com.bian.learnopengl.activity
 
-import android.R
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.MediaStore
@@ -8,10 +7,12 @@ import android.view.LayoutInflater
 import android.widget.AdapterView.OnItemClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cursoradapter.widget.SimpleCursorAdapter
+import androidx.databinding.DataBindingUtil
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
-import com.bian.learnopengl.databinding.ActivityVideoList2Binding
+import com.bian.learnopengl.R
+import com.bian.learnopengl.databinding.ActivityVideoListBinding
 import com.bian.learnopengl.nativeutil.OpenCvUtil
 import com.bian.learnopengl.util.LogUtils
 import kotlinx.coroutines.*
@@ -23,13 +24,13 @@ class VideoListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
             MediaStore.Video.Media.DATA,
             MediaStore.Video.Media.DISPLAY_NAME
     )
-    private var binding: ActivityVideoList2Binding? = null
+    private var binding: ActivityVideoListBinding? = null
     private var openCvUtil: OpenCvUtil? = null
     val scope = MainScope() + CoroutineName("VideoListActivity");
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityVideoList2Binding.inflate(LayoutInflater.from(this))
+        binding = DataBindingUtil.bind(LayoutInflater.from(this).inflate(R.layout.activity_video_list, null))
         setContentView(binding?.root)
         initData()
     }
@@ -46,13 +47,13 @@ class VideoListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
 
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor) {
         mCursorAdapter = SimpleCursorAdapter(this,
-                R.layout.simple_list_item_1,
-                data, arrayOf(MediaStore.Video.Media.DISPLAY_NAME), intArrayOf(R.id.text1), 0)
+                android.R.layout.simple_list_item_1,
+                data, arrayOf(MediaStore.Video.Media.DISPLAY_NAME), intArrayOf(android.R.id.text1), 0)
         binding?.videoAdapter = mCursorAdapter
-        binding!!.lvMain!!.onItemClickListener = OnItemClickListener { parent, view, position, id ->
+        binding?.lvVideo?.onItemClickListener = OnItemClickListener { parent, view, position, id ->
             LogUtils.logMessageI("Position:${position}")
             val cursor = mCursorAdapter?.getItem(position) as Cursor
-            val path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA))
+            val path = cursor.getString(cursor.getColumnIndex( MediaStore.Video.Media.DATA))
             beginOpenVideo(path)
         }
 
