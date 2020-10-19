@@ -25,9 +25,11 @@ extern "C" {
 
 #include "ModerRender.h"
 
-#define NELE(x) sizeof(x)/sizeof(x[0])
 
 BaseRender *mCurrentRender;
+
+#define NELE(x) sizeof(x)/sizeof(x[0])
+
 static JNINativeMethod renderMethods[] = {
         {"init",          "(Landroid/content/res/AssetManager;Ljava/lang/String;)V", (void *) init},
         {"load3DModel",   "(Landroid/content/res/AssetManager;Ljava/lang/String;)V", (void *) loadModel},
@@ -40,8 +42,8 @@ static JNINativeMethod renderMethods[] = {
         {"destroyView",   "()I",                                                     (void *) destroyView}
 };
 
-static JNINativeMethod playerMethods[]={
-        {"setSurface","(Landroid/view/Surface;)V",},
+static JNINativeMethod playerMethods[] = {
+        {"setSurface", "(Landroid/view/Surface;)V",},
 
 };
 
@@ -68,13 +70,10 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     if (vm->GetEnv(reinterpret_cast<void **>(&jniEnv), JNI_VERSION_1_6) != JNI_OK) {
         return JNI_ERR;
     }
-    ALOGE("className is :%s", MY_OPENGL_RENDER);
     jclass renderClass = jniEnv->FindClass(MY_OPENGL_RENDER);
     if (!renderClass) {
-        ALOGE("failed to find class:%s", MY_OPENGL_RENDER);
         return JNI_ERR;
     }
-    ALOGE("renderMethods.length is :%d", NELE(renderMethods));
     leaktracer::MemoryTrace::GetInstance().startMonitoringAllThreads();
     jniEnv->RegisterNatives(renderClass, renderMethods, NELE(renderMethods));
     jniEnv->DeleteLocalRef(renderClass);

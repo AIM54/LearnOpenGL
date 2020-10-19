@@ -5,10 +5,16 @@
 #ifndef LEARNOPENGL_OPENCVCONTROLLER_H
 #define LEARNOPENGL_OPENCVCONTROLLER_H
 
+#include <jni.h>
 
 class OpencvController {
 
 };
+
+void readImage(JNIEnv
+               *env,
+               jobject thiz, jstring
+               imagePath);
 
 
 #endif //LEARNOPENGL_OPENCVCONTROLLER_H

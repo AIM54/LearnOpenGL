@@ -18,6 +18,7 @@ import android.widget.ListView;
 
 import com.bian.learnopengl.OpenglActivity;
 import com.bian.learnopengl.R;
+import com.bian.learnopengl.nativeutil.OpenCvUtil;
 import com.bian.learnopengl.util.ConstantUtil;
 import com.bian.learnopengl.util.LogUtils;
 
@@ -29,6 +30,7 @@ public class ImageListActivity extends AppCompatActivity implements LoaderManage
             MediaStore.Images.Media.DISPLAY_NAME
     };
     private ListView mListView;
+    private OpenCvUtil openCvUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class ImageListActivity extends AppCompatActivity implements LoaderManage
         setContentView(R.layout.activity_image_list);
         mListView = findViewById(R.id.lv_main);
         initData();
+        openCvUtil = new OpenCvUtil();
     }
 
     private void initData() {
@@ -70,11 +73,7 @@ public class ImageListActivity extends AppCompatActivity implements LoaderManage
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         final Cursor cursor = (Cursor) mCursorAdapter.getItem(position);
-        Intent it = new Intent(this, OpenglActivity.class);
         String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-        LogUtils.logMessageI(path);
-        it.putExtra(ConstantUtil.ARG_IMG, path);
-        startActivity(it);
-
+        openCvUtil.loadImage(path);
     }
 }
