@@ -4,8 +4,11 @@
 
 #include "OpencvController.h"
 #include "opencv2/opencv.hpp"
+
 using namespace cv;
 
 void testBitMap() {
- Mat* mat=new Mat();
+    Mat *mat = new Mat();
+    mat->create(300, 900, CV_8SC4);
+    delete mat;
 }

@@ -42,8 +42,8 @@ endif()
 set( ANDROID_CXX_FLAGS "${ANDROID_CXX_FLAGS} -fsigned-char" ) # good/necessary when porting desktop libraries
 set( CMAKE_CXX_FLAGS           "${ANDROID_CXX_FLAGS} ${CMAKE_CXX_FLAGS}" )
 set( CMAKE_C_FLAGS             "${ANDROID_CXX_FLAGS} ${CMAKE_C_FLAGS}" )
-set( CMAKE_CXX_FLAGS_RELEASE   "${ANDROID_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_RELEASE}" )
-set( CMAKE_C_FLAGS_RELEASE     "${ANDROID_CXX_FLAGS_RELEASE} ${CMAKE_C_FLAGS_RELEASE}" )
+set( CMAKE_CXX_FLAGS_RELEASE   "${ANDROID_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG" )
+set( CMAKE_C_FLAGS_RELEASE     "${ANDROID_CXX_FLAGS_RELEASE} ${CMAKE_C_FLAGS_RELEASE} -O3 -DNDEBUG" )
 set( CMAKE_CXX_FLAGS_DEBUG     "${ANDROID_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_DEBUG}" )
 set( CMAKE_C_FLAGS_DEBUG       "${ANDROID_CXX_FLAGS_DEBUG} ${CMAKE_C_FLAGS_DEBUG}" )
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
@@ -102,6 +102,20 @@ target_link_libraries( # Specifies the target library.
         opencv_imgproc
         opencv_flann
         opencv_core
+        libcpufeatures
+        libjpeg-turbo
+        libtiff
+        libwebp
+        libjasper
+        libpng
+        IlmImf
+        tbb
+        libprotobuf
+        quirc
+        tegra_hal
+        ittnotify
+        ade
+        ocv.3rdparty.android_mediandk
         jnigraphics
         android
         EGL
