@@ -65,10 +65,6 @@ void onSurfaceCreated(JNIEnv
                       jobject
                       assert
 ) {
-    ALOGI("onSurfaceCreated");
-    ALOGI("avformat_license:%s", avformat_license());
-    ALOGI("aiGetLegalString:%s", aiGetLegalString());
-    ALOGI("aiGetLegalString:%s", avcodec_configuration());
     AAssetManager *manager = AAssetManager_fromJava(env, assert);
     char *verticalShader = readStringFromAssert(manager, "shaders/VAOVerticalShader.glsl");
     char *framgentShader = readStringFromAssert(manager, "shaders/VAOFragmentShader.glsl");

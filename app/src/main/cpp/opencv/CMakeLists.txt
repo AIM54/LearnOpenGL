@@ -7,45 +7,45 @@ cmake_minimum_required(VERSION 3.4.1)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/jniLibs/${ANDROID_ABI})
 
 # set target ABI options
-if( ${ANDROID_ABI} STREQUAL "x86" )
-    set( ANDROID_NDK_ABI_NAME "x86" )
-    set( ANDROID_ARCH_NAME "x86" )
-    set( CMAKE_SYSTEM_PROCESSOR "i686" )
-    set( ANDROID_CXX_FLAGS "${ANDROID_CXX_FLAGS} -funwind-tables" )
-    set( ANDROID_CXX_FLAGS_RELEASE "-fomit-frame-pointer -fstrict-aliasing" )
-    set( ANDROID_CXX_FLAGS_DEBUG   "-fno-omit-frame-pointer -fno-strict-aliasing" )
-elseif( ${ANDROID_ABI} STREQUAL "x86_64" )
-    set( ANDROID_NDK_ABI_NAME "x86_64" )
-    set( ANDROID_ARCH_NAME "x86_64" )
-    set( CMAKE_SYSTEM_PROCESSOR "x86_64" )
-    set( ANDROID_CXX_FLAGS "${ANDROID_CXX_FLAGS} -funwind-tables" )
-    set( ANDROID_CXX_FLAGS_RELEASE "-fomit-frame-pointer -fstrict-aliasing" )
-    set( ANDROID_CXX_FLAGS_DEBUG   "-fno-omit-frame-pointer -fno-strict-aliasing" )
-elseif( ${ANDROID_ABI} STREQUAL "arm64-v8a" )
-    set( ANDROID_NDK_ABI_NAME "arm64-v8a" )
-    set( ANDROID_ARCH_NAME "arm64" )
-    set( CMAKE_SYSTEM_PROCESSOR "aarch64" )
-    set( ANDROID_CXX_FLAGS "${ANDROID_CXX_FLAGS} -mfpu=vfpv3" )
-    set( ANDROID_CXX_FLAGS         "${ANDROID_CXX_FLAGS} -funwind-tables" )
-    set( ANDROID_CXX_FLAGS_RELEASE "-fomit-frame-pointer -fstrict-aliasing" )
-    set( ANDROID_CXX_FLAGS_DEBUG   "-fno-omit-frame-pointer -fno-strict-aliasing" )
-elseif( ${ANDROID_ABI} STREQUAL "armeabi-v7a")
-    set( ANDROID_NDK_ABI_NAME "armeabi-v7a" )
-    set( ANDROID_ARCH_NAME "arm" )
-    set( CMAKE_SYSTEM_PROCESSOR "armv7-a" )
-    set( ANDROID_CXX_FLAGS "${ANDROID_CXX_FLAGS} -funwind-tables" )
-    set( ANDROID_CXX_FLAGS_RELEASE "-mthumb -fomit-frame-pointer -fno-strict-aliasing" )
-    set( ANDROID_CXX_FLAGS_DEBUG   "-marm -fno-omit-frame-pointer -fno-strict-aliasing" )
-else()
-    message( SEND_ERROR "Unknown ANDROID_ABI=\"${ANDROID_ABI}\" is specified." )
-endif()
-set( ANDROID_CXX_FLAGS "${ANDROID_CXX_FLAGS} -fsigned-char" ) # good/necessary when porting desktop libraries
-set( CMAKE_CXX_FLAGS           "${ANDROID_CXX_FLAGS} ${CMAKE_CXX_FLAGS}" )
-set( CMAKE_C_FLAGS             "${ANDROID_CXX_FLAGS} ${CMAKE_C_FLAGS}" )
-set( CMAKE_CXX_FLAGS_RELEASE   "${ANDROID_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG" )
-set( CMAKE_C_FLAGS_RELEASE     "${ANDROID_CXX_FLAGS_RELEASE} ${CMAKE_C_FLAGS_RELEASE} -O3 -DNDEBUG" )
-set( CMAKE_CXX_FLAGS_DEBUG     "${ANDROID_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_DEBUG}" )
-set( CMAKE_C_FLAGS_DEBUG       "${ANDROID_CXX_FLAGS_DEBUG} ${CMAKE_C_FLAGS_DEBUG}" )
+if (${ANDROID_ABI} STREQUAL "x86")
+    set(ANDROID_NDK_ABI_NAME "x86")
+    set(ANDROID_ARCH_NAME "x86")
+    set(CMAKE_SYSTEM_PROCESSOR "i686")
+    set(ANDROID_CXX_FLAGS "${ANDROID_CXX_FLAGS} -funwind-tables")
+    set(ANDROID_CXX_FLAGS_RELEASE "-fomit-frame-pointer -fstrict-aliasing")
+    set(ANDROID_CXX_FLAGS_DEBUG "-fno-omit-frame-pointer -fno-strict-aliasing")
+elseif (${ANDROID_ABI} STREQUAL "x86_64")
+    set(ANDROID_NDK_ABI_NAME "x86_64")
+    set(ANDROID_ARCH_NAME "x86_64")
+    set(CMAKE_SYSTEM_PROCESSOR "x86_64")
+    set(ANDROID_CXX_FLAGS "${ANDROID_CXX_FLAGS} -funwind-tables")
+    set(ANDROID_CXX_FLAGS_RELEASE "-fomit-frame-pointer -fstrict-aliasing")
+    set(ANDROID_CXX_FLAGS_DEBUG "-fno-omit-frame-pointer -fno-strict-aliasing")
+elseif (${ANDROID_ABI} STREQUAL "arm64-v8a")
+    set(ANDROID_NDK_ABI_NAME "arm64-v8a")
+    set(ANDROID_ARCH_NAME "arm64")
+    set(CMAKE_SYSTEM_PROCESSOR "aarch64")
+    set(ANDROID_CXX_FLAGS "${ANDROID_CXX_FLAGS} -mfpu=vfpv3")
+    set(ANDROID_CXX_FLAGS "${ANDROID_CXX_FLAGS} -funwind-tables")
+    set(ANDROID_CXX_FLAGS_RELEASE "-fomit-frame-pointer -fstrict-aliasing")
+    set(ANDROID_CXX_FLAGS_DEBUG "-fno-omit-frame-pointer -fno-strict-aliasing")
+elseif (${ANDROID_ABI} STREQUAL "armeabi-v7a")
+    set(ANDROID_NDK_ABI_NAME "armeabi-v7a")
+    set(ANDROID_ARCH_NAME "arm")
+    set(CMAKE_SYSTEM_PROCESSOR "armv7-a")
+    set(ANDROID_CXX_FLAGS "${ANDROID_CXX_FLAGS} -funwind-tables")
+    set(ANDROID_CXX_FLAGS_RELEASE "-mthumb -fomit-frame-pointer -fno-strict-aliasing")
+    set(ANDROID_CXX_FLAGS_DEBUG "-marm -fno-omit-frame-pointer -fno-strict-aliasing")
+else ()
+    message(SEND_ERROR "Unknown ANDROID_ABI=\"${ANDROID_ABI}\" is specified.")
+endif ()
+set(ANDROID_CXX_FLAGS "${ANDROID_CXX_FLAGS} -fsigned-char") # good/necessary when porting desktop libraries
+set(CMAKE_CXX_FLAGS "${ANDROID_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
+set(CMAKE_C_FLAGS "${ANDROID_CXX_FLAGS} ${CMAKE_C_FLAGS}")
+set(CMAKE_CXX_FLAGS_RELEASE "${ANDROID_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
+set(CMAKE_C_FLAGS_RELEASE "${ANDROID_CXX_FLAGS_RELEASE} ${CMAKE_C_FLAGS_RELEASE} -O3 -DNDEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG "${ANDROID_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_DEBUG}")
+set(CMAKE_C_FLAGS_DEBUG "${ANDROID_CXX_FLAGS_DEBUG} ${CMAKE_C_FLAGS_DEBUG}")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -frtti -fexceptions  -Wall")
 # Creates and names a library, sets it as either STATIC
@@ -79,47 +79,92 @@ find_library( # Sets the name of the path variable.
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
-
-target_link_libraries( # Specifies the target library.
-        opencv_test
-        png
-        assimp
-        # Links the target library to the log library
-        # included in the NDK.
-        ${OPENGL_LIB}
-        opencv_gapi
-        opencv_video
-        opencv_stitching
-        opencv_objdetect
-        opencv_highgui
-        opencv_calib3d
-        opencv_videoio
-        opencv_imgcodecs
-        opencv_features2d
-        opencv_dnn
-        opencv_photo
-        opencv_ml
-        opencv_imgproc
-        opencv_flann
-        opencv_core
-        libcpufeatures
-        libjpeg-turbo
-        libtiff
-        libwebp
-        libjasper
-        libpng
-        IlmImf
-        tbb
-        libprotobuf
-        quirc
-        tegra_hal
-        ittnotify
-        ade
-        ocv.3rdparty.android_mediandk
-        jnigraphics
-        android
-        EGL
-        ${log-lib}
-        m
-        dl
-        z)
+if (${ANDROID_ABI} STREQUAL "arm64-v8a")
+    target_link_libraries( # Specifies the target library.
+            opencv_test
+            png
+            assimp
+            # Links the target library to the log library
+            # included in the NDK.
+            ${OPENGL_LIB}
+            opencv_gapi
+            opencv_video
+            opencv_stitching
+            opencv_objdetect
+            opencv_highgui
+            opencv_calib3d
+            opencv_videoio
+            opencv_imgcodecs
+            opencv_features2d
+            opencv_dnn
+            opencv_photo
+            opencv_ml
+            opencv_imgproc
+            opencv_flann
+            opencv_core
+            libcpufeatures
+            libjpeg-turbo
+            libtiff
+            libwebp
+            libjasper
+            libpng
+            IlmImf
+            tbb
+            libprotobuf
+            quirc
+            tegra_hal
+            ittnotify
+            ade
+            ocv.3rdparty.android_mediandk
+            jnigraphics
+            android
+            EGL
+            ${log-lib}
+            m
+            dl
+            z)
+elseif (${ANDROID_ABI} STREQUAL "x86")
+    target_link_libraries( # Specifies the target library.
+            opencv_test
+            assimp
+            # Links the target library to the log library
+            # included in the NDK.
+            ${OPENGL_LIB}
+            opencv_gapi
+            opencv_video
+            opencv_stitching
+            opencv_objdetect
+            opencv_highgui
+            opencv_calib3d
+            opencv_videoio
+            opencv_imgcodecs
+            opencv_features2d
+            opencv_dnn
+            opencv_photo
+            opencv_ml
+            opencv_imgproc
+            opencv_flann
+            opencv_core
+            libcpufeatures
+            libjpeg-turbo
+            libtiff
+            libwebp
+            libjasper
+            libpng
+            IlmImf
+            tbb
+            libprotobuf
+            quirc
+            ittnotify
+            ade
+            ocv.3rdparty.android_mediandk
+            ippiw
+            ippicv
+            jnigraphics
+            android
+            EGL
+            ${log-lib}
+            m
+            dl
+            z)
+endif ()
