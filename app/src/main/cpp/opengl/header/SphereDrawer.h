@@ -8,12 +8,19 @@
 #include "NewBaseRender.h"
 #include <vector>
 
-class SphereDrawer {
+class SphereDrawer : NewBaseRender {
 private:
-    std::vector<float> data;
+    std::vector<double > data;
+
+    void initData();
+
 public:
+    SphereDrawer(AAssetManager *manager);
 
 };
-
+#define UNIT_SIZE 1
+inline double to_radians(double digree) {
+    return M_PI * (digree / 180.0);
+}
 
 #endif //LEARNOPENGL_SPHEREDRAWER_H
