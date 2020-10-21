@@ -39,7 +39,7 @@ elseif (${ANDROID_ABI} STREQUAL "armeabi-v7a")
 else ()
     message(SEND_ERROR "Unknown ANDROID_ABI=\"${ANDROID_ABI}\" is specified.")
 endif ()
-set(ANDROID_CXX_FLAGS "${ANDROID_CXX_FLAGS} -fsigned-char") # good/necessary when porting desktop libraries
+
 set(CMAKE_CXX_FLAGS "${ANDROID_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
 set(CMAKE_C_FLAGS "${ANDROID_CXX_FLAGS} ${CMAKE_C_FLAGS}")
 set(CMAKE_CXX_FLAGS_RELEASE "${ANDROID_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
@@ -60,6 +60,7 @@ add_library( # Sets the name of the library.
         SHARED
         # Provides a relative path to your source file(s).
         OpencvController.cpp
+        OpenCvOpertion.cpp
         ../gl3stub.c)
 
 
@@ -146,20 +147,19 @@ elseif (${ANDROID_ABI} STREQUAL "x86")
             opencv_flann
             opencv_core
             libcpufeatures
-            libjpeg-turbo
-            libtiff
-            libwebp
-            libjasper
-            libpng
-            IlmImf
-            tbb
-            libprotobuf
-            quirc
             ittnotify
-            ade
-            ocv.3rdparty.android_mediandk
+            libprotobuf
+            tbb
+            libjpeg-turbo
+            libwebp
+            libpng
+            libtiff
+            libjasper
+            IlmImf
+            quirc
             ippiw
             ippicv
+            ade
             jnigraphics
             android
             EGL

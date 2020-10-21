@@ -3,33 +3,23 @@
 //
 
 #include "OpencvController.h"
-#include "opencv2/opencv.hpp"
-#include "opencv2/video.hpp"
-#include "opencv2/videoio.hpp"
+
 #include "ijksdl_log.h"
+#include "OpenCvOpertion.h"
 
 #define OPENCV_JAVA_UTIL "com/bian/learnopengl/nativeutil/OpenCvUtil"
 #define NELE(x) sizeof(x)/sizeof(x[0])
 
 static JNINativeMethod openCvMethods[] = {
-        {"loadImage",   "(Ljava/lang/String;)V", (void *) readImage},
-        {"anlyisVideo", "(Ljava/lang/String;)V", (void *) readVideo}
+        {"loadImage", "(Ljava/lang/String;)V", (void *) readImage},
 };
-using namespace cv;
-
-void testBitMap() {
-    Mat *mat = new Mat();
-    mat->create(300, 900, CV_8SC4);
-    delete mat;
-}
 
 void readImage(JNIEnv
                *env,
                jobject thiz, jstring
                imagePath) {
     const char *imageUrl = env->GetStringUTFChars(imagePath, 0);
-    Mat imageMat = imread(imageUrl);
-    ALOGI("image.rows:%d||image.cols:%d", imageMat.rows, imageMat.cols);
+    turnPictureToGreyPic(imageUrl);
     env->ReleaseStringUTFChars(imagePath, imageUrl);
 }
 
@@ -58,22 +48,3 @@ JNIEXPORT void JNI_OnUnload(JavaVM *vm, void *reserved) {
     }
     jniEnv->UnregisterNatives(renderClass);
 };
-
-
-void readVideo(JNIEnv
-               *env,
-               jobject thiz, jstring
-               videoPath) {
-    const char *imageUrl = env->GetStringUTFChars(videoPath, 0);
-    VideoCapture videoCapture;
-    if (!videoCapture.open(imageUrl)) {
-        ALOGI("failed to open video");
-        return;
-    }
-    int frameCount = videoCapture.get(cv::CAP_PROP_FRAME_COUNT);
-    double videoHeight = videoCapture.get(cv::CAP_PROP_FRAME_HEIGHT);
-    double videoWidth = videoCapture.get(cv::CAP_PROP_FRAME_WIDTH);
-    ALOGI("frameCount:%d,videoHeight:%f,videoWidth:%f", frameCount, videoHeight, videoWidth);
-    videoCapture.release();
-    env->ReleaseStringUTFChars(videoPath, imageUrl);
-}

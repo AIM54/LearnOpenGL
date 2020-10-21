@@ -7,6 +7,4 @@ public class OpenCvUtil {
 
 
     public native void loadImage(String imagePath);
-
-    public native void anlyisVideo(String videoPath);
 }

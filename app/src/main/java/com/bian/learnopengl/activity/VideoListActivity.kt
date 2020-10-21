@@ -54,7 +54,6 @@ class VideoListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
             LogUtils.logMessageI("Position:${position}")
             val cursor = mCursorAdapter?.getItem(position) as Cursor
             val path = cursor.getString(cursor.getColumnIndex( MediaStore.Video.Media.DATA))
-            beginOpenVideo(path)
         }
 
     }
@@ -63,11 +62,6 @@ class VideoListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
 
     private fun beginOpenVideo(path: String) {
         LogUtils.logMessageI("path:${path}")
-        scope.launch {
-            withContext(Dispatchers.IO) {
-                openCvUtil?.anlyisVideo(path)
-            }
-        }
 
     }
 }

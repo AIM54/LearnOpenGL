@@ -16,10 +16,6 @@ void readImage(JNIEnv
                jobject thiz, jstring
                imagePath);
 
-void readVideo(JNIEnv
-               *env,
-               jobject thiz, jstring
-               videoPath);
 
 
 #endif //LEARNOPENGL_OPENCVCONTROLLER_H
