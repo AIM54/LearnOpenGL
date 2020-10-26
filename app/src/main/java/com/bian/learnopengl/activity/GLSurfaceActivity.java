@@ -3,15 +3,14 @@ package com.bian.learnopengl.activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.bian.learnopengl.R;
+import com.bian.learnopengl.base.BaseActivity;
 import com.bian.learnopengl.nativeutil.GLSurfaceViewRender;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class GLSurfaceActivity extends AppCompatActivity implements GLSurfaceView.Renderer {
+public class GLSurfaceActivity extends BaseActivity implements GLSurfaceView.Renderer {
     private GLSurfaceView mainGlSurfaceView;
     private GLSurfaceViewRender glSurfaceViewRender;
 

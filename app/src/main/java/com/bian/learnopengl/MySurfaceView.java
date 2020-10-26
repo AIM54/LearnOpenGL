@@ -1,12 +1,10 @@
 package com.bian.learnopengl;
 
 import android.content.Context;
-
 import android.util.AttributeSet;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
 
 import androidx.recyclerview.widget.RecyclerView;
 

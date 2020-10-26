@@ -16,7 +16,7 @@ void Model::loadModel(const char *modelPath) {
 }
 
 void Model::processNode(aiNode *node, aiScene *scene) {
-    ALOGI("processNode");
+
 }
 
 

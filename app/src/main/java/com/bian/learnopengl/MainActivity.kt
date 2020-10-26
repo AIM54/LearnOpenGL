@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import com.bian.learnopengl.activity.ImageListActivity
+import com.bian.learnopengl.activity.OpenglActivity
 import com.bian.learnopengl.activity.VideoListActivity
 import com.bian.learnopengl.databinding.ActivityMainBinding
 import com.bian.learnopengl.util.CommonUtils
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setAdapter() {
-        val data = arrayOf("TestOpencvModule", "opencvVideoFunction")
+        val data = arrayOf("TestOpencvModule", "opencvVideoFunction", "testModelLoader")
         val simpleAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, data)
         mBinder?.adapter = simpleAdapter
         mBinder?.lvMain?.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             when (position) {
                 0 -> startActivity(Intent(this@MainActivity, ImageListActivity::class.java))
                 1 -> startActivity(Intent(this@MainActivity, VideoListActivity::class.java))
+                2 -> copyDataBase()
             }
         }
     }

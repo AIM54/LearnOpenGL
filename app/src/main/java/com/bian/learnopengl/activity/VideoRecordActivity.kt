@@ -2,13 +2,13 @@ package com.bian.learnopengl.activity
 
 import android.graphics.ImageFormat
 import android.hardware.Camera
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.SurfaceHolder
 import com.bian.learnopengl.R
+import com.bian.learnopengl.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_video_record.*
 
-class VideoRecordActivity : AppCompatActivity(), SurfaceHolder.Callback {
+class VideoRecordActivity : BaseActivity(), SurfaceHolder.Callback {
     var mCamera: Camera? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

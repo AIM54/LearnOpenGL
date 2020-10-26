@@ -51,10 +51,6 @@ public class MyRender {
 
     public native void drawOffScreen(AssetManager assetManager);
 
-    public void onImageDataCallBack(byte[] imageData) {
-
-    }
-
 
     public native int initSurface(Surface surface);
 

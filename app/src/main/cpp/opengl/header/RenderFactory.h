@@ -4,6 +4,8 @@
 
 #ifndef LEARNOPENGL_RENDERFACTORY_H
 #define LEARNOPENGL_RENDERFACTORY_H
+#define  OPENCV_RENDER_TYPE 10
+#define  OPENCV_MODEL_TYPE 11
 
 #include "BaseRender.h"
 #include <android/asset_manager.h>

@@ -44,11 +44,7 @@ static JNINativeMethod renderMethods[] = {
 
 static JNINativeMethod playerMethods[] = {
         {"setSurface", "(Landroid/view/Surface;)V",},
-
 };
-
-
-void releaseRender();
 
 void onImageDataCallback(Byte *imageData) {
 
@@ -130,11 +126,8 @@ void loadModel(JNIEnv
                assert, jstring modelPath) {
     releaseRender();
     const char *modelUrl = env->GetStringUTFChars(modelPath, 0);
-    ModerRender *moderRender = new ModerRender(AAssetManager_fromJava(env, assert));
-    moderRender->loadModel(modelUrl);
-    mCurrentRender = moderRender;
+    mCurrentRender = createRender(11, AAssetManager_fromJava(env, assert), modelUrl);
     env->ReleaseStringUTFChars(modelPath, modelUrl);
-
 }
 
 jint initSurface(JNIEnv

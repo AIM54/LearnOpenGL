@@ -22,4 +22,5 @@ public:
     void loadModel( const char *modelPath);
 };
 
+
 #endif //LEARNOPENGL_MODEL_H

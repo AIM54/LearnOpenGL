@@ -1,16 +1,14 @@
 package com.bian.learnopengl.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 
-import com.bian.learnopengl.R;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class VideoActivity extends AppCompatActivity {
-   GLSurfaceView glSurfaceView;
-    RecyclerView recyclerView;
+import com.bian.learnopengl.R;
+import com.bian.learnopengl.base.BaseActivity;
+
+public class VideoActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -8,9 +8,9 @@
 #include <jni.h>
 
 void loadModel(JNIEnv
-          *env,
-          jobject thiz, jobject
-          assert, jstring modelPath);
+               *env,
+               jobject thiz, jobject
+               assert, jstring modelPath);
 
 void init(JNIEnv
           *env,
@@ -51,6 +51,8 @@ jint destroyView(JNIEnv
                  *env,
                  jobject thiz
 );
+
+void releaseRender();
 
 #endif //LEARNOPENGL_JNICONTROLER_H
 

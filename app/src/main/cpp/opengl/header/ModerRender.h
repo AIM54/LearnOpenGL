@@ -10,9 +10,7 @@
 
 class ModerRender : public NewBaseRender {
 public:
-    ModerRender(AAssetManager *manager);
-
-    void loadModel( const char *modelPath);
+    ModerRender(AAssetManager *manager, const char *modelPath);
 
 
 protected:

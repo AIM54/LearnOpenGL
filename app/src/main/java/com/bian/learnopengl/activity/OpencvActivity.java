@@ -1,12 +1,10 @@
 package com.bian.learnopengl.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
-import com.bian.learnopengl.R;
+import com.bian.learnopengl.base.BaseActivity;
 
-public class OpencvActivity extends AppCompatActivity {
+public class OpencvActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

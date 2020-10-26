@@ -34,7 +34,8 @@ set(opencv3rdPath "${jniPath}/3rdparty/libs")
 set(opencvStaticPath "${jniPath}/staticlibs")
 set(PATH_TO_MEDIACORE ${CMAKE_SOURCE_DIR})
 
-file(GLOB FILES_C "${PATH_TO_MEDIACORE}/glbase/*.c")
+file(GLOB FILES_C "${PATH_TO_MEDIACORE}/glbase/*.c"
+                  "${PATH_TO_MEDIACORE}/glbase/*.cpp")
 file(GLOB FILE_RENDER_BASE "${PATH_TO_MEDIACORE}/opengl/*.cpp")
 file(GLOB FILE_RENDER "${PATH_TO_MEDIACORE}/opengl/drawer/*.cpp")
 file(GLOB VIDEO_CPP "${PATH_TO_MEDIACORE}/video/*.cpp")

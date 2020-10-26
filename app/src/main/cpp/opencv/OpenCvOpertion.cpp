@@ -8,7 +8,7 @@
 #include "iostream"
 
 using namespace cv;
-
+//将图片的蓝色值点到最亮
 void turnPictureToGreyPic(const char *filePath) {
     ALOGI("filePath is :%s", filePath);
     Mat imageMat = imread(filePath);
@@ -22,8 +22,7 @@ void turnPictureToGreyPic(const char *filePath) {
         }
     }
     ALOGI("after turnPictureToGreyPic");
-    IplImage ipImage = cvIplImage(imageMat);
     imwrite("/storage/emulated/0/Pictures/moon123.png", imageMat);
-
-
+    ALOGI("after savePicture");
 }
+

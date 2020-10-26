@@ -1,23 +1,26 @@
 package com.bian.learnopengl.activity
 
+import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.ListView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cursoradapter.widget.SimpleCursorAdapter
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
 import com.bian.learnopengl.R
+import com.bian.learnopengl.base.BaseActivity
 import com.bian.learnopengl.nativeutil.OpenCvUtil
+import com.bian.learnopengl.util.ConstantUtil
 import kotlinx.android.synthetic.main.activity_image_list.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.plus
 
-class ImageListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor>, OnItemClickListener {
+class ImageListActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor>, OnItemClickListener {
     private var mCursorAdapter: SimpleCursorAdapter? = null
     private val project = arrayOf(
             MediaStore.Images.Media._ID,
@@ -55,10 +58,8 @@ class ImageListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
     override fun onItemClick(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
         val cursor = mCursorAdapter!!.getItem(position) as Cursor
         val path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
-        scope.launch {
-            withContext(Dispatchers.IO) {
-                openCvUtil?.loadImage(path)
-            }
-        }
+        val it = Intent(this, OpenglActivity::class.java)
+        it.putExtra(ConstantUtil.ARG_IMG, path);
+        startActivity(it)
     }
 }

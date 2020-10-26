@@ -2,12 +2,11 @@ package com.bian.learnopengl.activity;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.bian.learnopengl.R;
+import com.bian.learnopengl.base.BaseActivity;
 import com.bian.learnopengl.nativeutil.MyRender;
 
-public class OffLineActivity extends AppCompatActivity {
+public class OffLineActivity extends BaseActivity {
 
     private MyRender myRender;
 

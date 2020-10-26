@@ -146,20 +146,6 @@ elseif (${ANDROID_ABI} STREQUAL "x86")
             opencv_imgproc
             opencv_flann
             opencv_core
-            libcpufeatures
-            ittnotify
-            libprotobuf
-            tbb
-            libjpeg-turbo
-            libwebp
-            libpng
-            libtiff
-            libjasper
-            IlmImf
-            quirc
-            ippiw
-            ippicv
-            ade
             jnigraphics
             android
             EGL

@@ -1,18 +1,18 @@
-package com.bian.learnopengl;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.bian.learnopengl.activity;
 
 import android.os.Bundle;
-
 import android.text.TextUtils;
 import android.view.Surface;
 
+import com.bian.learnopengl.MySurfaceView;
+import com.bian.learnopengl.R;
+import com.bian.learnopengl.base.BaseActivity;
 import com.bian.learnopengl.nativeutil.MyRender;
 import com.bian.learnopengl.util.ConstantUtil;
 
 import java.io.File;
 
-public class OpenglActivity extends AppCompatActivity implements MySurfaceView.Render {
+public class OpenglActivity extends BaseActivity implements MySurfaceView.Render {
     private MySurfaceView surfaceView;
     private MyRender myRender;
     private String modelFilePath;
@@ -27,7 +27,7 @@ public class OpenglActivity extends AppCompatActivity implements MySurfaceView.R
             myRender = new MyRender(getAssets(), modelFilePath + File.separator + "nanosuit" + File.separator + "nanosuit.obj");
             return;
         }
-        myRender = new MyRender(12, getAssets(), getIntent().getStringExtra(ConstantUtil.ARG_IMG));
+        myRender = new MyRender(10, getAssets(), getIntent().getStringExtra(ConstantUtil.ARG_IMG));
     }
 
     private void initView() {

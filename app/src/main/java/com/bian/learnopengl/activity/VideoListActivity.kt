@@ -5,19 +5,21 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.widget.AdapterView.OnItemClickListener
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cursoradapter.widget.SimpleCursorAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
 import com.bian.learnopengl.R
+import com.bian.learnopengl.base.BaseActivity
 import com.bian.learnopengl.databinding.ActivityVideoListBinding
 import com.bian.learnopengl.nativeutil.OpenCvUtil
 import com.bian.learnopengl.util.LogUtils
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.plus
 
-class VideoListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
+class VideoListActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor> {
     private var mCursorAdapter: SimpleCursorAdapter? = null
     private val project = arrayOf(
             MediaStore.Video.Media._ID,

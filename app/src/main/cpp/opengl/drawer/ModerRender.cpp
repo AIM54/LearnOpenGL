@@ -5,13 +5,8 @@
 #include "ModerRender.h"
 #include "Model.h"
 
-ModerRender::ModerRender(AAssetManager *manager) : NewBaseRender(manager) {
+ModerRender::ModerRender(AAssetManager *manager, const char *modelPath) : NewBaseRender(manager) {
 
-}
-
-void ModerRender::loadModel( const char *modelPath) {
-    Model *model = new Model();
-    model->loadModel(modelPath);
 }
 
 void ModerRender::onDraw(float deltaTime) {
