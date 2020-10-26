@@ -98,8 +98,6 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         private boolean mSizeChanged;
 
         private WeakReference<Surface> mSurfaceReference;
-
-
         @Override
         public void run() {
             setName("MyRenderThread--" + threadCount++);
